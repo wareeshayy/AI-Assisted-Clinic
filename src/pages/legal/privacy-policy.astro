@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy — Dentara"
+  description="Privacy policy and data handling practices for Dentara Dental Clinic."
+>
+  <Navbar />
+  <main id="main" tabindex="-1">
+    <section class="page-hero">
+      <div class="container">
+        <h1 class="page-hero__heading">Privacy Policy</h1>
+        <p class="page-hero__subtitle">Last updated: January 1, 2026</p>
+      </div>
+    </section>
+
+    <section class="legal-content section">
+      <div class="container">
+        <article class="prose">
+          <h2>1. Information We Collect</h2>
+          <p>
+            At Dentara, we respect your privacy and are committed to protecting any personal data you share with us. When you request an appointment through our website or reach out via email/phone, we may collect your name, email address, phone number, and any notes relevant to your inquiry.
+          </p>
+
+          <h2>2. How We Use Your Information</h2>
+          <p>
+            We use the information collected solely to communicate regarding dental appointments, respond to patient questions, and provide professional clinical care. We do not sell or lease your personal information to third parties.
+          </p>
+
+          <h2>3. Medical Information and HIPAA Compliance</h2>
+          <p>
+            Any health-related details provided during consultation or treatment are strictly confidential and managed in accordance with applicable data protection laws.
+          </p>
+
+          <h2>4. Cookies and Analytics</h2>
+          <p>
+            Our website uses minimal necessary cookies and anonymous performance metrics to ensure proper site navigation and monitor service reliability.
+          </p>
+
+          <h2>5. Contact Us</h2>
+          <p>
+            If you have questions about our privacy practices, please reach out to us at <a href="mailto:privacy@dentara.com">privacy@dentara.com</a> or call +92 300 1234567.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+.page-hero {
+  background-color: var(--color-bg-light);
+  padding: calc(var(--nav-height) + var(--space-16)) 0 var(--space-12);
+}
+
+.page-hero__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.page-hero__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-teal-mid);
+}
+
+.legal-content .prose {
+  margin: 0 auto;
+}
+</style>

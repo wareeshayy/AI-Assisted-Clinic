@@ -1,0 +1,339 @@
+---
+// Testimonials Section — slideshow/carousel of patient reviews
+const testimonials = [
+  {
+    rating: 5,
+    quote: "I was terrified of the dentist for years, but the team at Dentara completely changed that. Dr. Johnson is incredibly gentle and explains everything. My teeth have never looked better!",
+    name: "Sarah Mitchell",
+    role: "Patient since 2022",
+    avatar: "SM",
+  },
+  {
+    rating: 5,
+    quote: "Dr. Chen transformed my smile with clear aligners. The process was smooth, the results are stunning, and the team checked in throughout. Worth every penny!",
+    name: "James Rodriguez",
+    role: "Orthodontics patient",
+    avatar: "JR",
+  },
+  {
+    rating: 5,
+    quote: "Emergency on a Sunday — they were there. The team saw me within hours, fixed my broken tooth, and I felt zero pain. Exceptional care when I needed it most.",
+    name: "Priya Sharma",
+    role: "Emergency care patient",
+    avatar: "PS",
+  },
+  {
+    rating: 5,
+    quote: "Both my kids now actually look forward to their dental visits. The pediatric team is so patient and fun. The cleanings, sealants — everything is done with such care.",
+    name: "Marcus Chen",
+    role: "Parent of 2 patients",
+    avatar: "MC",
+  },
+  {
+    rating: 5,
+    quote: "The whitening results were beyond what I expected — 8 shades lighter in one session. I smiled for a week straight. Professional, fast, and genuinely painless.",
+    name: "Amanda Torres",
+    role: "Cosmetic dentistry patient",
+    avatar: "AT",
+  },
+];
+---
+
+<section class="testimonials section" style="background-color: var(--color-bg-warm);">
+  <div class="testimonials__inner container">
+
+    <!-- Header -->
+    <div class="testimonials__header">
+      <div class="section-tag reveal">
+        <span>Testimonials</span>
+        <svg width="24" height="2" viewBox="0 0 24 2" fill="none" aria-hidden="true">
+          <line x1="0" y1="1" x2="24" y2="1" stroke="var(--color-primary)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h2 class="testimonials__heading reveal reveal-delay-2">
+        What Our Patients Say
+      </h2>
+    </div>
+
+    <!-- Carousel -->
+    <div class="testimonials__carousel reveal reveal-delay-3" aria-label="Patient testimonials" role="region">
+      <div class="testimonials__track" id="testimonialTrack">
+        {testimonials.map((t, i) => (
+          <div
+            class={`testimonial-card ${i === 0 ? 'is-active' : ''}`}
+            role="group"
+            aria-label={`Testimonial ${i + 1} of ${testimonials.length}`}
+            data-index={i}
+          >
+            <!-- Stars -->
+            <div class="testimonial-card__stars" aria-label={`${t.rating} out of 5 stars`}>
+              {Array.from({ length: t.rating }).map(() => (
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="var(--color-primary)" aria-hidden="true">
+                  <path d="M10 15.27L15.18 18l-1.36-5.83L18 8.24l-5.91-.51L10 2 7.91 7.73 2 8.24l3.46 3.93L4.09 18z"/>
+                </svg>
+              ))}
+            </div>
+
+            <blockquote class="testimonial-card__quote">
+              "{t.quote}"
+            </blockquote>
+
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar" aria-hidden="true">
+                {t.avatar}
+              </div>
+              <div class="testimonial-card__meta">
+                <strong class="testimonial-card__name">{t.name}</strong>
+                <span class="testimonial-card__role">{t.role}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Navigation -->
+      <div class="testimonials__nav">
+        <button class="testimonials__arrow testimonials__arrow--prev" id="prevBtn" aria-label="Previous testimonial">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <div class="testimonials__dots" role="tablist">
+          {testimonials.map((_, i) => (
+            <button
+              class={`testimonials__dot ${i === 0 ? 'is-active' : ''}`}
+              role="tab"
+              aria-label={`Go to testimonial ${i + 1}`}
+              data-dot={i}
+            ></button>
+          ))}
+        </div>
+
+        <button class="testimonials__arrow testimonials__arrow--next" id="nextBtn" aria-label="Next testimonial">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const track = document.getElementById('testimonialTrack');
+  const cards = track?.querySelectorAll('.testimonial-card') ?? [];
+  const dots  = document.querySelectorAll('.testimonials__dot');
+  let current = 0;
+
+  function goTo(idx: number) {
+    cards[current]?.classList.remove('is-active');
+    dots[current]?.classList.remove('is-active');
+    current = (idx + cards.length) % cards.length;
+    cards[current]?.classList.add('is-active');
+    dots[current]?.classList.add('is-active');
+  }
+
+  document.getElementById('prevBtn')?.addEventListener('click', () => goTo(current - 1));
+  document.getElementById('nextBtn')?.addEventListener('click', () => goTo(current + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+  // Auto-advance every 6s
+  let timer = setInterval(() => goTo(current + 1), 6000);
+  track?.addEventListener('mouseenter', () => clearInterval(timer));
+  track?.addEventListener('mouseleave', () => {
+    timer = setInterval(() => goTo(current + 1), 6000);
+  });
+</script>
+
+<style>
+.testimonials__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+/* ---- Header ---- */
+.testimonials__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+.testimonials__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+/* ---- Carousel ---- */
+.testimonials__carousel {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.testimonials__track {
+  position: relative;
+  min-height: 280px;
+}
+
+/* ---- Card ---- */
+.testimonial-card {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-6);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-10);
+  box-shadow: var(--shadow-card);
+  animation: fadeIn 0.4s ease;
+}
+
+.testimonial-card.is-active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.testimonial-card__stars {
+  display: flex;
+  gap: 4px;
+}
+
+.testimonial-card__quote {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-primary);
+  font-style: normal;
+  quotes: none;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.testimonial-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.testimonial-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.testimonial-card__name {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.testimonial-card__role {
+  font-size: var(--text-sm);
+  color: var(--color-teal-mid);
+}
+
+/* ---- Navigation ---- */
+.testimonials__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+}
+
+.testimonials__arrow {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border-teal);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.testimonials__arrow:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+  transform: scale(1.05);
+}
+
+.testimonials__dots {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.testimonials__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-border-teal);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), width var(--transition-fast);
+}
+
+.testimonials__dot.is-active {
+  background: var(--color-primary);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ---- Section Tag ---- */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: var(--color-white);
+  border: 1px solid var(--color-border-teal);
+  border-radius: var(--radius-full);
+  padding: 8px 16px;
+  width: fit-content;
+}
+
+@media (max-width: 809px) {
+  .testimonial-card {
+    padding: var(--space-6);
+  }
+
+  .testimonial-card__quote {
+    font-size: var(--text-lg);
+  }
+}
+</style>

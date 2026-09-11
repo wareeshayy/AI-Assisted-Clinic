@@ -1,0 +1,253 @@
+---
+// FAQ Section — accordion with IntersectionObserver reveal
+const faqs = [
+  {
+    question: "How often should I visit the dentist?",
+    answer: "We recommend visiting every 6 months for routine cleaning and exam. Patients with gum disease or high cavity risk may need quarterly visits. Your dentist will personalize your schedule during your first appointment.",
+  },
+  {
+    question: "Does teeth whitening damage enamel?",
+    answer: "When performed correctly, professional whitening does not damage enamel. Our clinical-grade peroxide gels temporarily open enamel pores to remove staining safely. Over-the-counter products used excessively can cause issues — professional treatment is the safest option.",
+  },
+  {
+    question: "At what age should my child have their first dental visit?",
+    answer: "The American Academy of Pediatric Dentistry recommends a child's first visit by their first birthday, or within 6 months of their first tooth appearing. Early visits establish positive habits and allow us to monitor development.",
+  },
+  {
+    question: "Is Invisalign as effective as traditional braces?",
+    answer: "For mild to moderate alignment issues, Invisalign is highly effective — comparable to traditional braces. For severe cases with significant crowding or bite corrections, braces often deliver more precise results. We assess your specific case during a free consultation.",
+  },
+  {
+    question: "What should I do in a dental emergency?",
+    answer: "Call us immediately — we prioritize same-day emergency appointments. For a knocked-out tooth, keep it moist in milk or saline, handle only by the crown, and see us within 30–60 minutes. For severe pain, take OTC pain relief as directed.",
+  },
+  {
+    question: "Do you accept dental insurance?",
+    answer: "We accept most major dental insurance plans and help you maximize your benefits. We also offer flexible payment plans and CareCredit financing for treatments not covered by insurance. Contact our front desk with your insurance details before your appointment.",
+  },
+];
+---
+
+<section class="faq section">
+  <div class="faq__inner container">
+
+    <!-- Header -->
+    <div class="faq__header">
+      <div class="section-tag reveal">
+        <span>FAQ</span>
+        <svg width="24" height="2" viewBox="0 0 24 2" fill="none" aria-hidden="true">
+          <line x1="0" y1="1" x2="24" y2="1" stroke="var(--color-primary)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h2 class="faq__heading reveal reveal-delay-2">
+        Frequently Asked Questions
+      </h2>
+      <p class="faq__subtitle reveal reveal-delay-3">
+        Answers to our most common questions. Can't find what you're looking for?{' '}
+        <a href="/contact" class="faq__contact-link">Contact us directly.</a>
+      </p>
+    </div>
+
+    <!-- Accordion -->
+    <div class="faq__list reveal reveal-delay-3" role="list">
+      {faqs.map((faq, i) => (
+        <div class="faq__item" role="listitem">
+          <button
+            class="faq__question"
+            aria-expanded="false"
+            id={`faq-btn-${i}`}
+            aria-controls={`faq-answer-${i}`}
+          >
+            <span>{faq.question}</span>
+            <span class="faq__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 8l5 5 5-5"/>
+              </svg>
+            </span>
+          </button>
+          <div
+            class="faq__answer"
+            id={`faq-answer-${i}`}
+            aria-labelledby={`faq-btn-${i}`}
+            role="region"
+          >
+            <p class="faq__answer-text">{faq.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const buttons = document.querySelectorAll('.faq__question');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      const answerId = btn.getAttribute('aria-controls')!;
+      const answer = document.getElementById(answerId)!;
+
+      // Close all
+      buttons.forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        const id = b.getAttribute('aria-controls')!;
+        const a = document.getElementById(id)!;
+        a.style.maxHeight = '0px';
+        a.classList.remove('is-open');
+      });
+
+      // Open clicked (unless it was already open)
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        answer.classList.add('is-open');
+      }
+    });
+  });
+</script>
+
+<style>
+.faq__inner {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+/* ---- Header ---- */
+.faq__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-8));
+}
+
+.faq__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+.faq__subtitle {
+  font-size: var(--text-md);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+}
+
+.faq__contact-link {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- List ---- */
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border-teal);
+}
+
+/* ---- Item ---- */
+.faq__item {
+  border-bottom: 1px solid var(--color-border-teal);
+}
+
+.faq__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  padding: var(--space-6) 0;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--color-primary);
+  transition: color var(--transition-fast);
+}
+
+.faq__question:hover {
+  color: var(--color-teal-mid);
+}
+
+.faq__question[aria-expanded="true"] {
+  color: var(--color-teal-mid);
+}
+
+.faq__icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-normal), background-color var(--transition-normal);
+}
+
+.faq__question[aria-expanded="true"] .faq__icon {
+  transform: rotate(180deg);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* ---- Answer ---- */
+.faq__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq__answer.is-open {
+  /* max-height is set by JS */
+}
+
+.faq__answer-text {
+  font-size: var(--text-base);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+  padding-bottom: var(--space-6);
+}
+
+/* ---- Section Tag ---- */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border-teal);
+  border-radius: var(--radius-full);
+  padding: 8px 16px;
+  width: fit-content;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .faq__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  .faq__header {
+    position: static;
+  }
+}
+</style>

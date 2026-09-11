@@ -1,0 +1,18 @@
+---
+export const prerender = true;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import ContactSection from '../components/contact/ContactSection.astro';
+---
+
+<BaseLayout
+  title="Contact Us — Dentara Dental Clinic"
+  description="Send Dentara a message about routine dental care, treatments, or questions for our team."
+>
+  <Navbar />
+  <main id="main" tabindex="-1">
+    <ContactSection standalone />
+  </main>
+  <Footer />
+</BaseLayout>

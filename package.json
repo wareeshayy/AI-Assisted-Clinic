@@ -1,0 +1,23 @@
+{
+  "name": "dentara-astro",
+  "description": "AI-assisted dental clinic CRM and appointment platform",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test:booking": "node --experimental-strip-types --test tests/booking.test.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "author": "Wareesha Ashraf",
+  "license": "MIT"
+}

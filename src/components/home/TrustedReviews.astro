@@ -1,0 +1,302 @@
+---
+const reviewColumns = [
+  [
+    { quote: 'The entire team made my first visit feel calm and effortless. Every step was explained clearly, and I never felt rushed.', name: 'Olivia Miller', role: 'New patient', initials: 'OM', tone: '#f5d9cf' },
+    { quote: 'My treatment plan was thoughtful, transparent, and tailored to exactly what I needed. The results have given me so much confidence.', name: 'Robert Fox', role: 'Cosmetic dentistry patient', initials: 'RF', tone: '#d6e7ff', stars: true },
+    { quote: 'I called with severe tooth pain and they found space for me the same day. Fast, gentle, and genuinely caring service.', name: 'Ava Brooks', role: 'Emergency care patient', initials: 'AB', tone: '#e2ead4' },
+    { quote: 'Regular checkups here are easy to schedule, on time, and always thorough. I finally feel on top of my dental health.', name: 'Noah Bennett', role: 'Patient since 2023', initials: 'NB', tone: '#eadcf3' },
+  ],
+  [
+    { quote: 'Our children actually look forward to appointments now. The pediatric team is patient, kind, and wonderful at building trust.', name: 'Albert Flores', role: 'Parent of two patients', initials: 'AF', tone: '#e7ddd3' },
+    { quote: 'The follow-up care after my implant was exceptional. I always knew what to expect and felt supported throughout recovery.', name: 'Theresa Webb', role: 'Dental implant patient', initials: 'TW', tone: '#d8e9e2', stars: true },
+    { quote: 'The technology is impressive, but it is the people who make Dentara special. Precise treatment with a genuinely human touch.', name: 'Jane Cooper', role: 'Long-term patient', initials: 'JC', tone: '#f0d8dd' },
+    { quote: 'My aligner journey was smooth from the first scan to the final result. The team kept every appointment focused and encouraging.', name: 'Liam Harris', role: 'Orthodontics patient', initials: 'LH', tone: '#dbe4f1' },
+  ],
+  [
+    { quote: 'Dentara combines a beautiful clinic with warm, attentive care. I left every appointment feeling heard and completely comfortable.', name: 'Sophia Karen', role: 'Routine care patient', initials: 'SK', tone: '#ead5c9' },
+    { quote: 'The whitening result looked natural and brighter than I expected. The whole experience was quick, comfortable, and professional.', name: 'Mia Turner', role: 'Smile enhancement patient', initials: 'MT', tone: '#d7e7dc', stars: true },
+    { quote: 'I used to feel anxious before dental visits. The gentle approach here changed that completely, and my smile has never felt healthier.', name: 'James Cole', role: 'Patient since 2022', initials: 'JC', tone: '#dce2f4' },
+    { quote: 'Clear advice, fair options, and no pressure. I could make the right treatment decision with complete confidence.', name: 'Emily Stone', role: 'Restorative care patient', initials: 'ES', tone: '#f0dfcd' },
+  ],
+];
+---
+
+<section class="review-wall" aria-labelledby="reviews-title" data-review-loop>
+  <div class="review-wall__inner">
+    <header class="review-wall__header">
+      <div class="review-wall__heading-group">
+        <div class="review-wall__eyebrow">
+          <span>Patient Feedback</span><span class="review-wall__line" aria-hidden="true"></span>
+        </div>
+        <h2 id="reviews-title">Trusted by Thousands of Happy Patients</h2>
+      </div>
+      <p class="review-wall__intro">
+        Patients trust our expert dental care, friendly support, and comfortable treatments for healthier smiles.
+      </p>
+    </header>
+
+    <div class="review-wall__columns" aria-label="Patient reviews">
+      {reviewColumns.map((column, columnIndex) => (
+        <div class={`review-column review-column--${columnIndex + 1}`}>
+          <div class="review-column__track">
+            {[0, 1].map((copy) => (
+              <div class="review-column__set" aria-hidden={copy === 1 ? 'true' : undefined}>
+                {column.map((review) => (
+                  <article class="review-card">
+                    {review.stars && (
+                      <div class="review-card__stars" aria-label="5 out of 5 stars">
+                        {Array.from({ length: 5 }).map(() => (
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.5 4.4 1.1 6.2-5.7-3-5.7 3 1.1-6.2-4.5-4.4 6.3-.9L12 2.8Z"/></svg>
+                        ))}
+                      </div>
+                    )}
+                    <blockquote>“{review.quote}”</blockquote>
+                    <footer class="review-card__person">
+                      <span class="review-card__avatar" style={`--avatar-tone:${review.tone}`} aria-hidden="true">{review.initials}</span>
+                      <span class="review-card__meta">
+                        <strong>{review.name}</strong>
+                        <span>{review.role}</span>
+                      </span>
+                    </footer>
+                  </article>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const initializeReviewLoops = () => {
+    document.querySelectorAll('[data-review-loop]').forEach((section) => {
+      if (!(section instanceof HTMLElement) || section.dataset.loopReady === 'true') return;
+      let isVisible = false;
+      const updatePlayback = () => section.classList.toggle('is-paused', !isVisible || document.hidden);
+      const observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry?.isIntersecting ?? false;
+        updatePlayback();
+      }, { rootMargin: '120px 0px' });
+      observer.observe(section);
+      document.addEventListener('visibilitychange', updatePlayback);
+      section.dataset.loopReady = 'true';
+      updatePlayback();
+    });
+  };
+  initializeReviewLoops();
+  document.addEventListener('astro:page-load', initializeReviewLoops);
+</script>
+
+<style>
+  .review-wall {
+    width: 100%;
+    padding: 112px 0 0;
+    overflow: hidden;
+    background: var(--color-white);
+  }
+
+  .review-wall__inner {
+    width: 100%;
+    max-width: 1640px;
+    margin: 0 auto;
+    padding: 0 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .review-wall__header {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 80px;
+  }
+
+  .review-wall__heading-group {
+    width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .review-wall__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-primary);
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .review-wall__line {
+    width: 48px;
+    height: 1px;
+    position: relative;
+    background: currentColor;
+  }
+
+  .review-wall__line::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    border-radius: 50%;
+    background: currentColor;
+    transform: translateY(-50%);
+  }
+
+  .review-wall__heading-group h2 {
+    max-width: 560px;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: clamp(40px, 3.1vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .review-wall__intro {
+    width: 380px;
+    margin-bottom: 2px;
+    color: var(--color-teal-mid);
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .review-wall__columns {
+    width: 100%;
+    height: 720px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(28px, 4.6vw, 88px);
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%);
+  }
+
+  .review-column { min-width: 0; overflow: hidden; }
+  .review-column__track, .review-column__set {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .review-column__track { will-change: transform; }
+  .review-column--1 .review-column__track { animation: review-up 34s linear infinite; }
+  .review-column--2 .review-column__track { animation: review-down 38s linear infinite; }
+  .review-column--3 .review-column__track { animation: review-up 36s linear infinite; }
+
+  .review-card {
+    min-height: 192px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+    border-radius: 16px;
+    background: var(--color-bg-light);
+    color: var(--color-primary);
+  }
+
+  .review-card blockquote {
+    margin: 0;
+    color: var(--color-teal-mid);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .review-card__stars { display: flex; gap: 4px; color: #f2b600; }
+  .review-card__stars svg { width: 22px; height: 22px; fill: currentColor; }
+
+  .review-card__person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .review-card__avatar {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--avatar-tone);
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .review-card__meta {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .review-card__meta strong {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .review-card__meta span {
+    color: var(--color-teal-mid);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .review-wall.is-paused .review-column__track,
+  .review-wall__columns:hover .review-column__track { animation-play-state: paused; }
+
+  @keyframes review-up {
+    from { transform: translateY(0); }
+    to { transform: translateY(calc(-50% - 12px)); }
+  }
+
+  @keyframes review-down {
+    from { transform: translateY(calc(-50% - 12px)); }
+    to { transform: translateY(0); }
+  }
+
+  @media (max-width: 1439px) {
+    .review-wall { padding-top: 72px; }
+    .review-wall__inner { padding: 0 40px; }
+    .review-wall__header { gap: 40px; }
+    .review-wall__columns { gap: 24px; }
+  }
+
+  @media (max-width: 809px) {
+    .review-wall { padding-top: 64px; }
+    .review-wall__inner { padding: 0 20px; gap: 32px; }
+    .review-wall__header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .review-wall__heading-group, .review-wall__intro { width: 100%; max-width: 520px; }
+    .review-wall__eyebrow { font-size: 15px; }
+    .review-wall__heading-group h2 { font-size: clamp(34px, 10vw, 42px); }
+    .review-wall__intro { font-size: 16px; }
+    .review-wall__columns {
+      height: 620px;
+      grid-template-columns: 1fr;
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    }
+    .review-column:nth-child(n + 2) { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .review-wall { padding-bottom: 72px; }
+    .review-wall__columns { height: auto; overflow: visible; mask-image: none; }
+    .review-column { overflow: visible; }
+    .review-column__track { animation: none !important; transform: none !important; will-change: auto; }
+    .review-column__set:nth-child(2) { display: none; }
+  }
+</style>

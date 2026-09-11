@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/home/Hero.astro';
+import WhoWeAre from '../components/home/WhoWeAre.astro';
+import Benefits from '../components/home/Benefits.astro';
+import Services from '../components/home/Services.astro';
+import FeatureShowcase from '../components/home/FeatureShowcase.astro';
+import Results from '../components/home/Results.astro';
+import Team from '../components/home/Team.astro';
+import TrustedReviews from '../components/home/TrustedReviews.astro';
+import FAQ from '../components/home/FAQ.astro';
+import ContactSection from '../components/contact/ContactSection.astro';
+---
+
+<BaseLayout
+  title="Dentara — Modern Dental Care for the Whole Family"
+  description="Dentara is a modern dental clinic offering comprehensive care including teeth whitening, orthodontics, cosmetic dentistry, and emergency services. Trusted by 120,000+ patients."
+>
+  <Navbar />
+  <main id="main" tabindex="-1">
+    <Hero />
+    <WhoWeAre />
+    <Benefits />
+    <Services />
+    <FeatureShowcase />
+    <Results />
+    <Team />
+    <TrustedReviews />
+    <FAQ />
+    <ContactSection />
+  </main>
+  <Footer />
+</BaseLayout>

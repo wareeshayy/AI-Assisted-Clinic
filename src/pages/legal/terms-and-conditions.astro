@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+---
+
+<BaseLayout
+  title="Terms & Conditions — Dentara"
+  description="Terms and conditions of service for Dentara Dental Clinic."
+>
+  <Navbar />
+  <main id="main" tabindex="-1">
+    <section class="page-hero">
+      <div class="container">
+        <h1 class="page-hero__heading">Terms of Service</h1>
+        <p class="page-hero__subtitle">Last updated: January 1, 2026</p>
+      </div>
+    </section>
+
+    <section class="legal-content section">
+      <div class="container">
+        <article class="prose">
+          <h2>1. Acceptance of Terms</h2>
+          <p>
+            By accessing and using this website, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use our website.
+          </p>
+
+          <h2>2. Medical Disclaimer</h2>
+          <p>
+            The content provided on this website—including text, graphics, images, and other materials—is for informational purposes only and does not constitute formal medical or dental advice, diagnosis, or treatment plans. Always seek the advice of a qualified dental professional with any questions regarding your oral health.
+          </p>
+
+          <h2>3. Appointments and Cancellations</h2>
+          <p>
+            Submitting an appointment request online does not guarantee a booked slot until confirmed by our reception team. We ask for at least 24 hours' notice for appointment cancellations or rescheduling.
+          </p>
+
+          <h2>4. Intellectual Property</h2>
+          <p>
+            All content, logos, trademarks, and design assets displayed on this site are the property of Dentara and protected under intellectual property laws.
+          </p>
+
+          <h2>5. Contact Information</h2>
+          <p>
+            For questions regarding these Terms, contact our administration at <a href="mailto:hello@dentara.com">hello@dentara.com</a>.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+.page-hero {
+  background-color: var(--color-bg-light);
+  padding: calc(var(--nav-height) + var(--space-16)) 0 var(--space-12);
+}
+
+.page-hero__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.page-hero__subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-teal-mid);
+}
+
+.legal-content .prose {
+  margin: 0 auto;
+}
+</style>

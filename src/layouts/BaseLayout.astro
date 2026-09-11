@@ -1,0 +1,104 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const {
+  title = 'Dentara — Dentist & Dental Clinic',
+  description = 'Dentara is a modern dental clinic offering comprehensive care including teeth whitening, orthodontics, cosmetic dentistry, and emergency services. Trusted by 120,000+ patients.',
+  image = 'https://framerusercontent.com/images/ew19WFKjx5LmyVjfaP0HhYyUa3E.png',
+  canonical,
+} = Astro.props;
+
+const siteUrl = 'https://dentara.yourdomain.com';
+const pageUrl = canonical ?? siteUrl + Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Lenis Smooth Scroll -->
+    <script is:inline src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  </head>
+  <body>
+    <slot />
+
+    <!-- Scripts: Smooth Scroll & Appear Animations -->
+    <script is:inline>
+      // Initialize Lenis Smooth Scroll
+      if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          touchMultiplier: 1.5,
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
+
+      // IntersectionObserver for .reveal elements
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      document.querySelectorAll('.reveal, .reveal-hero, .reveal-scale, .reveal-slow').forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+  @import '../styles/typography.css';
+  @import '../styles/animations.css';
+</style>

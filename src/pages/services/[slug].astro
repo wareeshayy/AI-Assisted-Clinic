@@ -1,0 +1,332 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map(service => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await service.render();
+
+// Get related services (same category, different slug)
+const allServices = await getCollection('services');
+const related = allServices
+  .filter(s => s.data.category === service.data.category && s.slug !== service.slug)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={`${service.data.title} — Dentara`}
+  description={service.data.shortDescription}
+  image={service.data.image}
+>
+  <Navbar />
+  <main id="main" tabindex="-1">
+
+    <!-- Service Hero -->
+    <section class="service-hero">
+      <div class="service-hero__image-wrapper">
+        <img
+          src={service.data.image}
+          alt={service.data.imageAlt}
+          class="service-hero__image"
+          width="1440"
+          height="500"
+          loading="eager"
+        />
+        <div class="service-hero__overlay"></div>
+      </div>
+
+      <div class="service-hero__content container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">›</span>
+          <a href="/services">Services</a>
+          <span aria-hidden="true">›</span>
+          <span aria-current="page">{service.data.title}</span>
+        </nav>
+        <div class="service-hero__tag">{service.data.category}</div>
+        <h1 class="service-hero__heading">{service.data.title}</h1>
+        <p class="service-hero__desc">{service.data.shortDescription}</p>
+        <a href="/contact" class="btn btn--accent btn--lg service-hero__cta">
+          Contact Us About This Service
+        </a>
+      </div>
+    </section>
+
+    <!-- Content Body -->
+    <section class="service-body section">
+      <div class="service-body__inner container">
+        <article class="prose service-prose">
+          <Content />
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="service-sidebar">
+          <div class="service-sidebar__card">
+            <h3 class="service-sidebar__title">Ready to Get Started?</h3>
+            <p class="service-sidebar__desc">Send us a message and take the first step toward a healthier smile.</p>
+            <a href="/contact" class="btn btn--accent" style="width:100%; text-align:center; justify-content:center;">
+              Contact Us
+            </a>
+          </div>
+
+          <div class="service-sidebar__card">
+            <h3 class="service-sidebar__title">Have Questions?</h3>
+            <p class="service-sidebar__desc">Call us or send a message and we'll get back to you within 24 hours.</p>
+            <a href="tel:+923001234567" class="btn btn--outline" style="width:100%; text-align:center; justify-content:center;">
+              +92 300 1234567
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Related Services -->
+    {related.length > 0 && (
+      <section class="related-services section" style="background-color:var(--color-bg-light);">
+        <div class="container">
+          <h2 class="related-services__heading">Related Services</h2>
+          <div class="related-services__grid">
+            {related.map(s => (
+              <a href={`/services/${s.slug}`} class="related-card">
+                <img src={s.data.image} alt={s.data.imageAlt} width="320" height="200" loading="lazy"/>
+                <div class="related-card__info">
+                  <h3 class="related-card__title">{s.data.title}</h3>
+                  <span class="related-card__link">Learn more →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+/* ---- Service Hero ---- */
+.service-hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  padding-top: var(--nav-height);
+}
+
+.service-hero__image-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.service-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.service-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(5,41,39,0.3) 0%, rgba(5,41,39,0.85) 100%);
+}
+
+.service-hero__content {
+  position: relative;
+  z-index: 1;
+  padding-bottom: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.7);
+}
+
+.breadcrumb a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb a:hover {
+  color: var(--color-white);
+}
+
+.breadcrumb span[aria-current] {
+  color: rgba(255,255,255,0.5);
+}
+
+.service-hero__tag {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: rgba(255,255,255,0.7);
+}
+
+.service-hero__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  max-width: 700px;
+}
+
+.service-hero__desc {
+  font-size: var(--text-md);
+  color: rgba(255,255,255,0.8);
+  line-height: var(--leading-relaxed);
+  max-width: 600px;
+}
+
+/* ---- Body ---- */
+.service-body__inner {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.service-prose {
+  max-width: none;
+}
+
+/* ---- Sidebar ---- */
+.service-sidebar {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-8));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.service-sidebar__card {
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border-teal);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.service-sidebar__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.service-sidebar__desc {
+  font-size: var(--text-sm);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+}
+
+/* ---- Related ---- */
+.related-services__heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-8);
+}
+
+.related-services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.related-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-white);
+  text-decoration: none;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.related-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.related-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.related-card__info {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.related-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: var(--leading-snug);
+}
+
+.related-card__link {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .service-body__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .service-sidebar {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .service-sidebar__card {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .related-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 809px) {
+  .related-services__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-sidebar {
+    flex-direction: column;
+  }
+}
+</style>

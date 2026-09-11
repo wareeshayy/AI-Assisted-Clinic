@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import WhoWeAre from '../components/home/WhoWeAre.astro';
+import Benefits from '../components/home/Benefits.astro';
+import Team from '../components/home/Team.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+---
+
+<BaseLayout
+  title="About Us — Dentara Dental Clinic"
+  description="Learn about Dentara's mission, our team of dedicated dental specialists, and our patient-first approach to modern dentistry."
+>
+  <Navbar />
+  <main id="main" tabindex="-1">
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="page-hero__tag">About Dentara</div>
+        <h1 class="page-hero__heading">Excellence in Dental Care, Designed for Your Comfort</h1>
+        <p class="page-hero__subtitle">
+          Founded on the belief that visiting the dentist should be stress-free and empowering, Dentara brings together top dental experts, cutting-edge technology, and compassionate care.
+        </p>
+      </div>
+    </section>
+
+    <!-- Stats & Story Section -->
+    <section class="about-story section">
+      <div class="container">
+        <div class="about-story__grid">
+          <div class="about-story__content">
+            <h2 class="about-story__title">Our Story & Mission</h2>
+            <p class="about-story__text">
+              For over 19 years, Dentara has been at the forefront of modern dentistry. We combine state-of-the-art diagnostic imaging, gentle anesthesia methods, and personalized treatment plans to give every patient a world-class smile.
+            </p>
+            <p class="about-story__text">
+              Whether you are here for routine preventive maintenance, cosmetic enhancements, or complex restorative procedures, our certified team is devoted to making your visit pleasant, safe, and transparent.
+            </p>
+
+            <div class="about-story__badges">
+              <div class="story-badge">
+                <span class="story-badge__num">120K+</span>
+                <span class="story-badge__label">Happy Smiles</span>
+              </div>
+              <div class="story-badge">
+                <span class="story-badge__num">19+</span>
+                <span class="story-badge__label">Years of Experience</span>
+              </div>
+              <div class="story-badge">
+                <span class="story-badge__num">15+</span>
+                <span class="story-badge__label">Specialists & Staff</span>
+              </div>
+              <div class="story-badge">
+                <span class="story-badge__num">99.4%</span>
+                <span class="story-badge__label">Patient Satisfaction</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-story__image-wrapper">
+            <img
+              src="https://framerusercontent.com/images/GNkiD1HhOzPxK0yj7RnDzMQ8P0.png"
+              alt="Dentara Clinic Team & Patient"
+              class="about-story__image"
+              width="600"
+              height="600"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <WhoWeAre />
+    <Benefits />
+    <Team />
+    <Testimonials />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+/* Page Hero */
+.page-hero {
+  background-color: var(--color-bg-light);
+  padding: calc(var(--nav-height) + var(--space-20)) 0 var(--space-20);
+}
+
+.page-hero__tag {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-teal-mid);
+  margin-bottom: var(--space-4);
+}
+
+.page-hero__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-5);
+  max-width: 800px;
+}
+
+.page-hero__subtitle {
+  font-size: var(--text-md);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+  max-width: 650px;
+}
+
+/* About Story */
+.about-story__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+}
+
+.about-story__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+}
+
+.about-story__text {
+  font-size: var(--text-base);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.about-story__badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border-teal);
+}
+
+.story-badge {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.story-badge__num {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.story-badge__label {
+  font-size: var(--text-sm);
+  color: var(--color-teal-mid);
+  font-weight: 500;
+}
+
+.about-story__image-wrapper {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.about-story__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+}
+
+@media (max-width: 1024px) {
+  .about-story__grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

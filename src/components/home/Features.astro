@@ -1,0 +1,268 @@
+---
+// Features Section — 3-column feature cards with background image reveal on hover
+const features = [
+  {
+    title: 'Personalised Dental Care',
+    description: 'Receive customized treatment plans tailored to your unique dental needs and smile goals.',
+    image: 'https://framerusercontent.com/images/s6IOtF6hKQ4Fhzz9LdQDz3jpUk.png',
+    imageAlt: 'Minimalist bamboo toothbrush setup',
+    hasBg: true,
+    icon: `<path d="M20 10c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S25.52 10 20 10zm0 3.75a3.75 3.75 0 110 7.5 3.75 3.75 0 010-7.5zm0 14c-2.51 0-4.72-.76-6.5-2.07.18-2.49 5-3.68 6.5-3.68 1.5 0 6.33 1.19 6.5 3.68-1.78 1.31-3.99 2.07-6.5 2.07z" fill="currentColor"/>`,
+    viewBox: '0 0 40 40',
+  },
+  {
+    title: 'Dental Tech Innovations',
+    description: 'We use modern tools for accurate diagnosis and effective dental treatment for you.',
+    image: 'https://framerusercontent.com/images/kXSAvi3ZyQr9o0uKsEC8bC6PC0.png',
+    imageAlt: 'Advanced dental microscope equipment',
+    hasBg: false,
+    icon: `<path d="M30 10H10a2 2 0 00-2 2v16a2 2 0 002 2h20a2 2 0 002-2V12a2 2 0 00-2-2zm-2 14H12v-2h16v2zm0-4H12v-2h16v2zm0-4H12v-2h16v2z" fill="currentColor"/>`,
+    viewBox: '0 0 40 40',
+  },
+  {
+    title: 'Safe Pain-Free Treatment',
+    description: 'Advanced anesthesia and sedation options ensure every procedure is comfortable and stress-free.',
+    image: 'https://framerusercontent.com/images/ccbLKQ8I3t6IMsMfgdOcZfOeIXA.png',
+    imageAlt: 'Calm dental treatment room',
+    hasBg: false,
+    icon: `<path d="M20 6L4 14v4h2v12h4V18h4v12h4V18h4v12h4V18h2v-4L20 6zm0 5.4L28 15H12l8-3.6z" fill="currentColor"/>`,
+    viewBox: '0 0 40 40',
+  },
+];
+---
+
+<section class="features section">
+  <div class="features__inner container">
+
+    <!-- Header -->
+    <div class="features__header">
+      <div class="section-tag reveal">
+        <span>Features</span>
+        <svg width="24" height="2" viewBox="0 0 24 2" fill="none" aria-hidden="true">
+          <line x1="0" y1="1" x2="24" y2="1" stroke="var(--color-primary)" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h2 class="features__heading reveal reveal-delay-2">
+        Trusted Dental Care for the Family
+      </h2>
+      <p class="features__subtitle reveal reveal-delay-3">
+        We offer reliable dental solutions designed to improve comfort, confidence, and long-term oral health.
+      </p>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="features__grid">
+      {features.map((f, i) => (
+        <div class={`feature-card ${f.hasBg ? 'feature-card--has-bg' : ''} reveal reveal-delay-${i + 1}`}>
+          <!-- Background Image (revealed on hover for hasBg, always shown for others) -->
+          <div class="feature-card__image-wrapper" aria-hidden="true">
+            <img
+              src={f.image}
+              alt={f.imageAlt}
+              class="feature-card__image"
+              width="400"
+              height="400"
+              loading="lazy"
+            />
+            <div class="feature-card__overlay" aria-hidden="true"></div>
+          </div>
+
+          <!-- Content -->
+          <div class="feature-card__content">
+            <div class="feature-card__icon" aria-hidden="true">
+              <svg viewBox={f.viewBox} fill="none" width="40" height="40" set:html={f.icon}></svg>
+            </div>
+            <h3 class="feature-card__title">{f.title}</h3>
+            <p class="feature-card__desc">{f.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.features__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+/* ---- Header ---- */
+.features__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+  max-width: 600px;
+}
+
+.features__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+.features__subtitle {
+  font-size: var(--text-md);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+}
+
+/* ---- Grid ---- */
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* ---- Feature Card ---- */
+.feature-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  overflow: hidden;
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: box-shadow var(--transition-normal);
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Image — hidden by default on cards without bg */
+.feature-card__image-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.feature-card--has-bg .feature-card__image-wrapper {
+  opacity: 1;
+}
+
+.feature-card:hover .feature-card__image-wrapper {
+  opacity: 1;
+}
+
+.feature-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.05);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-card:hover .feature-card__image {
+  transform: scale(1);
+}
+
+.feature-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Content */
+.feature-card__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+}
+
+.feature-card__icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-light);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
+  flex-shrink: 0;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+.feature-card--has-bg .feature-card__icon,
+.feature-card:hover .feature-card__icon {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-white);
+}
+
+.feature-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  color: var(--color-primary);
+  transition: color var(--transition-normal);
+}
+
+.feature-card--has-bg .feature-card__title,
+.feature-card:hover .feature-card__title {
+  color: var(--color-white);
+}
+
+.feature-card__desc {
+  font-size: var(--text-base);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+  transition: color var(--transition-normal);
+}
+
+.feature-card--has-bg .feature-card__desc,
+.feature-card:hover .feature-card__desc {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---- Section Tag ---- */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border-teal);
+  border-radius: var(--radius-full);
+  padding: 8px 16px;
+  width: fit-content;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .features__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 809px) {
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    min-height: 300px;
+  }
+}
+</style>

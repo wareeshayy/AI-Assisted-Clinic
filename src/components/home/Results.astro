@@ -1,0 +1,370 @@
+<section class="results" aria-labelledby="results-title">
+  <div class="results__inner">
+    <div class="results__content">
+      <header class="results__header">
+        <div class="results__eyebrow">
+          <span>Result</span><span class="results__line" aria-hidden="true"></span>
+        </div>
+        <h2 id="results-title">Inspiring Radiant, Healthy Smiles Forever</h2>
+        <p>Take care of your smile and look great doing it! Enjoy safe, modern, personalized care for a brighter, healthier you.</p>
+      </header>
+
+      <a class="results__button" href="/booking">
+        <span>Book Consultation</span>
+        <span class="results__button-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M4.5 11h13M12 5.5l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+
+    <div class="results__visual">
+      <div class="results__comparison" style="--comparison-position:50%">
+        <img
+          class="results__image results__image--before"
+          src="https://framerusercontent.com/images/uxldkk4ATtXoQtnnDS2WbHLEids.png?width=1440&height=1060"
+          alt="Smile before cosmetic dental treatment"
+          width="1440"
+          height="1060"
+          loading="lazy"
+          draggable="false"
+        />
+        <div class="results__after-clip" aria-hidden="true">
+          <img
+            class="results__image results__image--after"
+            src="https://framerusercontent.com/images/vxiiAmVEdqKfMcEagPanNp6j3w.png?width=1440&height=1060"
+            alt=""
+            width="1440"
+            height="1060"
+            loading="lazy"
+            draggable="false"
+          />
+        </div>
+
+        <span class="results__divider" aria-hidden="true"></span>
+        <span class="results__drag" aria-hidden="true">Drag</span>
+        <span class="results__label results__label--before" aria-hidden="true">Before</span>
+        <span class="results__label results__label--after" aria-hidden="true">After</span>
+
+        <input
+          class="results__range"
+          type="range"
+          min="0"
+          max="100"
+          value="50"
+          aria-label="Compare the smile before and after treatment"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const initializeComparisons = () => {
+    document.querySelectorAll('.results__comparison').forEach((comparison) => {
+      if (!(comparison instanceof HTMLElement) || comparison.dataset.ready === 'true') return;
+      const range = comparison.querySelector('.results__range');
+      if (!(range instanceof HTMLInputElement)) return;
+
+      const update = () => comparison.style.setProperty('--comparison-position', `${range.value}%`);
+      range.addEventListener('input', update);
+      update();
+      comparison.dataset.ready = 'true';
+    });
+  };
+
+  initializeComparisons();
+  document.addEventListener('astro:page-load', initializeComparisons);
+</script>
+
+<style>
+  .results {
+    width: 100%;
+    background: var(--color-primary);
+    color: var(--color-white);
+    overflow: hidden;
+  }
+
+  .results__inner {
+    width: 100%;
+    max-width: 1640px;
+    min-height: 456px;
+    margin: 0 auto;
+    padding: 0 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+  }
+
+  .results__content {
+    min-width: 0;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .results__header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .results__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .results__line {
+    width: 48px;
+    height: 1px;
+    background: currentColor;
+    position: relative;
+  }
+
+  .results__line::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    border-radius: 50%;
+    background: currentColor;
+    transform: translateY(-50%);
+  }
+
+  .results__header h2 {
+    max-width: 620px;
+    font-family: var(--font-heading);
+    font-size: clamp(40px, 3.1vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+  }
+
+  .results__header p {
+    max-width: 700px;
+    color: #dbeae9;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .results__button {
+    min-height: 56px;
+    padding: 8px 8px 8px 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    border-radius: 42px;
+    background: var(--color-accent);
+    color: var(--color-white);
+    font-size: 16px;
+    font-weight: 600;
+    transition: transform var(--transition-normal), background-color var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .results__button:hover {
+    transform: translateY(-2px);
+    background: var(--color-accent-hover);
+    box-shadow: 0 10px 28px rgba(4, 84, 255, 0.28);
+  }
+
+  .results__button-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-white);
+    color: var(--color-primary);
+  }
+
+  .results__visual {
+    width: 620px;
+    height: 456px;
+    flex: 0 0 620px;
+  }
+
+  .results__comparison {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    cursor: ew-resize;
+    touch-action: pan-y;
+    user-select: none;
+    background: #d8d8d8;
+  }
+
+  .results__image,
+  .results__after-clip {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .results__image {
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .results__after-clip {
+    overflow: hidden;
+    clip-path: inset(0 calc(100% - var(--comparison-position)) 0 0);
+  }
+
+  .results__divider {
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: var(--comparison-position);
+    background: var(--color-white);
+    transform: translateX(-1px);
+    pointer-events: none;
+  }
+
+  .results__drag {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    left: var(--comparison-position);
+    display: grid;
+    place-items: center;
+    border: 3px solid var(--color-white);
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 600;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .results__label {
+    min-width: 118px;
+    min-height: 48px;
+    padding: 12px 24px;
+    position: absolute;
+    z-index: 4;
+    bottom: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 100px;
+    background: var(--color-white);
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  .results__label--before { left: 32px; }
+  .results__label--after { right: 32px; }
+
+  .results__range {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 5;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+  }
+
+  .results__comparison:focus-within {
+    outline: 3px solid rgba(255, 255, 255, 0.9);
+    outline-offset: -3px;
+  }
+
+  @media (max-width: 1439px) {
+    .results__inner {
+      padding: 60px 40px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 48px;
+    }
+
+    .results__content {
+      width: 100%;
+      max-width: 560px;
+      flex: none;
+    }
+
+    .results__visual {
+      width: min(730px, 100%);
+      height: auto;
+      aspect-ratio: 73 / 44;
+      flex: none;
+      align-self: center;
+    }
+  }
+
+  @media (max-width: 809px) {
+    .results__inner {
+      padding: 40px 20px;
+      gap: 32px;
+    }
+
+    .results__header {
+      gap: 20px;
+    }
+
+    .results__eyebrow {
+      font-size: 15px;
+    }
+
+    .results__header h2 {
+      font-size: clamp(34px, 10vw, 42px);
+    }
+
+    .results__header p {
+      font-size: 16px;
+    }
+
+    .results__visual {
+      width: 100%;
+      aspect-ratio: 35 / 22;
+    }
+
+    .results__drag {
+      width: 58px;
+      height: 58px;
+      font-size: 15px;
+    }
+
+    .results__label {
+      min-width: auto;
+      min-height: 40px;
+      bottom: 16px;
+      padding: 9px 18px;
+      font-size: 15px;
+    }
+
+    .results__label--before { left: 16px; }
+    .results__label--after { right: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .results__button {
+      transition: none;
+    }
+  }
+</style>

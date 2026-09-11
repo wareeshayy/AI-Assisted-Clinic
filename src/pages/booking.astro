@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import { bookingConfig, bookingServices } from '../lib/booking/config';
+import '../styles/booking.css';
+---
+
+<BaseLayout title="Book an Appointment — Dentara" description="Choose a dental service, explore the appointment calendar, and try our interactive booking demo.">
+  <Navbar />
+  <a class="booking-skip" href="#booking-main">Skip to booking</a>
+  <main id="booking-main" class="booking-page" tabindex="-1">
+    <div class="booking-shell" id="booking-app">
+      <header class="booking-intro">
+        <div>
+          <h1>A little time for your smile.</h1>
+          <p>Choose your visit. Find a time. We’ll take it from there.</p>
+        </div>
+        <a href="/contact" class="booking-help">Need a hand? <span>Get in touch <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a>
+      </header>
+
+      <div class="booking-demo-note">
+        <span>Interactive demo</span>
+        <p>Sample availability. Bookings are saved in this browser only; no real appointment is made.</p>
+      </div>
+
+      <ol class="booking-steps" aria-label="Booking progress">
+        <li aria-current="step" data-step="time"><span>1</span> Date &amp; time</li>
+        <li data-step="details"><span>2</span> Your details</li>
+        <li data-step="confirmation"><span>3</span> Confirmation</li>
+      </ol>
+
+      <div class="booking-message booking-message--error" id="booking-error" role="alert" hidden>
+        <p id="booking-error-text"></p>
+        <button id="booking-retry" type="button">Reload availability</button>
+      </div>
+      <p class="booking-sr-only" id="booking-status" role="status" aria-live="polite"></p>
+      <noscript><p class="booking-message">Please enable JavaScript to try the booking calendar, or <a href="/contact">contact the clinic</a>.</p></noscript>
+
+      <div class="booking-workspace" id="booking-workspace" aria-busy="true">
+        <section class="booking-scheduler" id="booking-time-step" aria-label="Choose a date and time">
+          <div class="booking-service">
+            <div>
+              <label for="booking-service">What brings you in?</label>
+              <p id="booking-service-description">{bookingServices[0].description}</p>
+            </div>
+            <select id="booking-service" aria-describedby="booking-service-description" disabled>
+              {bookingServices.map((service) => <option value={service.id}>{service.name} · {service.duration} min</option>)}
+            </select>
+          </div>
+
+          <div class="booking-date-time">
+            <section class="booking-calendar" aria-labelledby="calendar-heading">
+              <h2 id="calendar-heading">Choose a date</h2>
+              <div class="booking-month-nav">
+                <h3 id="booking-month">Loading calendar…</h3>
+                <div>
+                  <button id="booking-prev-month" type="button" aria-label="Previous month" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg></button>
+                  <button id="booking-next-month" type="button" aria-label="Next month" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg></button>
+                </div>
+              </div>
+              <div class="booking-weekdays" aria-hidden="true"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+              <div id="booking-days" class="booking-days" role="group" aria-label="Calendar dates"><div class="booking-calendar-loading">Finding your next visit…</div></div>
+              <div class="booking-calendar-key"><span><i class="booking-dot" aria-hidden="true"></i> Times available</span><span><i class="booking-dot booking-dot--closed" aria-hidden="true"></i> Unavailable</span></div>
+              <button class="booking-text-button" type="button" id="booking-next-available" disabled>Find the next available day <span aria-hidden="true">→</span></button>
+              <div class="booking-timezone"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18Z" /></svg><span>All times in {bookingConfig.timeZoneLabel}<small>{bookingConfig.timeZone}</small></span></div>
+            </section>
+
+            <section class="booking-times" aria-labelledby="booking-day-heading">
+              <div class="booking-times-title"><div><h2 id="booking-day-heading">Available times</h2><p id="booking-day-description">Select a date to see appointment times.</p></div></div>
+              <div class="booking-periods" role="group" aria-label="Time of day">
+                <button type="button" data-period="morning" aria-pressed="true">Morning</button>
+                <button type="button" data-period="afternoon" aria-pressed="false">Afternoon</button>
+                <button type="button" data-period="evening" aria-pressed="false">Evening</button>
+              </div>
+              <div class="booking-slot-key"><span><i class="booking-dot" aria-hidden="true"></i> Available</span><span><i class="booking-dot booking-dot--booked" aria-hidden="true"></i> Booked</span><span><i class="booking-dot booking-dot--buffer" aria-hidden="true"></i> Buffer</span></div>
+              <div class="booking-slots" id="booking-slots" role="group" aria-label="Appointment start times"></div>
+              <p class="booking-slot-explanation">Times shown are start times. “Too short” means your visit and its buffer won’t fit before the next booking or closing.</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="booking-details" id="booking-details-step" aria-labelledby="booking-details-heading" hidden>
+          <button type="button" class="booking-text-button" id="booking-back"><span aria-hidden="true">←</span> Change date or time</button>
+          <h2 id="booking-details-heading" tabindex="-1">Let’s put a name to your visit.</h2>
+          <p>Enter sample details to complete this demo. They won’t be sent to the clinic or saved.</p>
+          <form id="booking-form">
+            <div class="booking-field"><label for="patient-name">Full name</label><input id="patient-name" name="name" autocomplete="name" placeholder="e.g. Alex Taylor" maxlength="100" required /></div>
+            <div class="booking-field"><label for="patient-email">Email address</label><input id="patient-email" name="email" type="email" autocomplete="email" placeholder="alex@example.com" maxlength="254" required /></div>
+            <div class="booking-field"><label for="patient-phone">Phone number</label><input id="patient-phone" name="phone" type="tel" autocomplete="tel" placeholder="e.g. +1 555 123 4567" minlength="7" maxlength="25" pattern="[+0-9\s().\-]{7,25}" required /><p>Include your country code if outside the US.</p></div>
+            <fieldset class="booking-visit"><legend>Is this your first visit?</legend><label><input type="radio" name="firstVisit" value="yes" checked /> Yes, I’m new here</label><label><input type="radio" name="firstVisit" value="no" /> I’m a returning patient</label></fieldset>
+            <label class="booking-consent"><input type="checkbox" name="consent" required /><span>I understand this is a demo booking and does not reserve an appointment with the clinic. <a href="/legal/privacy-policy">Privacy policy</a></span></label>
+            <button type="submit" class="booking-primary" id="booking-submit">Confirm demo booking <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+          </form>
+        </section>
+
+        <aside class="booking-summary" id="booking-summary" aria-labelledby="booking-summary-heading">
+          <div class="booking-summary-heading"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3" /><path d="M7 3v4m10-4v4M3 11h18m-13 5h2m4 0h2" /></svg><h2 id="booking-summary-heading">Your visit</h2></div>
+          <h3 id="summary-service">{bookingServices[0].name}</h3>
+          <p class="booking-summary-location">In person at Dentara</p>
+          <dl><div><dt>Duration</dt><dd id="summary-duration">30 minutes</dd></div><div><dt>Date</dt><dd id="summary-date">Choose a date</dd></div><div><dt>Time</dt><dd id="summary-time" class="is-placeholder">Choose a time</dd></div></dl>
+          <div class="booking-buffer-note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg><p><strong id="summary-buffer">15-minute buffer after each visit</strong><span id="summary-buffer-description">Time for our team to get ready for the next patient. It’s automatically kept free.</span></p></div>
+          <button type="button" class="booking-primary" id="booking-continue" disabled>Continue to your details <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+          <p id="booking-summary-hint" class="booking-summary-hint">Select an available time to continue.</p>
+          <div class="booking-summary-address"><strong>Dentara Dental Clinic</strong><span>Suite 401, Shahrah-e-Faisal<br />Karachi, Pakistan</span></div>
+        </aside>
+      </div>
+
+      <section class="booking-confirmation" id="booking-confirmation" hidden aria-labelledby="booking-confirmation-heading">
+        <div class="booking-success-mark"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg></div>
+        <h2 id="booking-confirmation-heading" tabindex="-1">Your demo visit is booked.</h2>
+        <p id="confirmation-greeting"></p>
+        <dl id="confirmation-details"></dl>
+        <p class="booking-confirmation-notice">This is a demo, not a clinic appointment. The time and its buffer are now blocked in this browser. No email or text message has been sent.</p>
+        <div class="booking-confirmation-actions"><button type="button" class="booking-primary" id="booking-another">Back to the calendar</button><a href="/contact" class="booking-text-button">Contact the clinic</a></div>
+      </section>
+
+      <details class="booking-settings" id="booking-settings">
+        <summary><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 17h16" /><circle cx="9" cy="7" r="3" fill="currentColor" /><circle cx="15" cy="17" r="3" fill="currentColor" /></svg> Demo scheduling settings <span id="booking-settings-value">15 min buffer</span></summary>
+        <div class="booking-settings-content"><div><label for="booking-buffer">Buffer after each appointment</label><p>Try a different gap and watch availability update. These demo settings apply only in your browser.</p></div><select id="booking-buffer" disabled>{bookingConfig.bufferOptions.map((minutes) => <option value={minutes} selected={minutes === bookingConfig.bufferMinutes}>{minutes === 0 ? 'No buffer' : `${minutes} minutes`}</option>)}</select></div>
+        <p class="booking-settings-footnote">Changing the buffer updates availability around every visit. Existing bookings keep their time. Live clinic settings would be managed by staff.</p>
+      </details>
+      <p class="booking-bottom-note">Looking for emergency care? <a href="/contact">Contact the clinic directly.</a></p>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { initializeBooking } from '../lib/booking/client';
+  initializeBooking();
+</script>

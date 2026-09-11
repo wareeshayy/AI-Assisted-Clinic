@@ -1,0 +1,541 @@
+---
+// Hero Section — Pixel-matched to dentara.framer.ai
+const tickerRow1 = ['Cutting-edge Tools', 'Tailored Care', 'Cutting-edge Tools', 'Tailored Care', 'Cutting-edge Tools'];
+const tickerRow2 = ['Teeth Whitening', 'Warm Care', 'Teeth Whitening', 'Warm Care', 'Teeth Whitening'];
+---
+
+<section class="hero-section">
+  <div class="container">
+    <!-- Main Hero Canvas Card -->
+    <div class="hero-card">
+      <!-- Full-bleed background image with doctor pointing from right to left -->
+      <img
+        src="https://framerusercontent.com/images/ew19WFKjx5LmyVjfaP0HhYyUa3E.png"
+        alt="Smiling dentist pointing at space"
+        class="hero-card__bg-image"
+        width="5440"
+        height="3356"
+        loading="eager"
+        fetchpriority="high"
+      />
+
+      <!-- Left Content Column (Overlayed on the left side of the card) -->
+      <div class="hero-card__left">
+        <!-- Top: Avatars + Text + Buttons -->
+        <div class="hero-card__main-text">
+          <!-- Avatars Badge -->
+          <div class="hero__avatars">
+            <img
+              src="https://framerusercontent.com/images/b0Cu5qS7se3Ksi1p0Jr0CiEMeic.png"
+              alt="Dentara Team Doctors"
+              width="156"
+              height="60"
+              class="hero__avatars-img"
+              loading="eager"
+            />
+          </div>
+
+          <!-- Main Title -->
+          <h1 class="hero__title">
+            Top-Notch Dental Care<br />
+            for Awesome Smiles
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="hero__subtitle">
+            From daily wellness to advanced health insights, our platform is designed to support you every day.
+          </p>
+
+          <!-- Buttons Group -->
+          <div class="hero__buttons">
+            <!-- Primary Blue Button with animated sliding arrow -->
+            <a href="/contact" class="btn btn-primary hero__btn-blue">
+              <span class="btn-text">Book A Free Demo</span>
+              <span class="btn-icon-circle" aria-hidden="true">
+                <span class="btn-arrow btn-arrow--primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
+                <span class="btn-arrow btn-arrow--clone">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
+              </span>
+            </a>
+
+            <!-- Secondary White Button -->
+            <a href="/services" class="btn btn-outline hero__btn-white">
+              <span class="btn-text">Explore Services</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Left: Floating Statistics Card -->
+        <div class="hero__stats-card">
+          <!-- Reviews -->
+          <div class="stats-card__col">
+            <div class="stats-card__head">
+              <span class="stats-card__number">120K</span>
+              <span class="stats-card__label">Reviews</span>
+            </div>
+            <!-- 5 Lime-Green Stars -->
+            <div class="stats-card__stars" aria-label="5 stars rating">
+              <svg width="105" height="18" viewBox="0 0 136 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 1.75C12.311 1.75 12.5898 1.94201 12.7007 2.23263L15.0587 8.41234L21.5366 8.72913C21.8418 8.74406 22.1074 8.94263 22.2081 9.23111C22.3088 9.5196 22.2244 9.84032 21.9947 10.0419L17.0648 14.3695L18.8767 21.3106C18.9558 21.6135 18.8383 21.9338 18.5821 22.1137C18.3258 22.2937 17.9848 22.2956 17.7266 22.1183L12 18.1875L6.27335 22.1183C6.01519 22.2956 5.67409 22.2937 5.41785 22.1137C5.1616 21.9338 5.04413 21.6135 5.12323 21.3106L6.93517 14.3695L2.0052 10.0419C1.77557 9.84032 1.69118 9.5196 1.79186 9.23111C1.89253 8.94263 2.15815 8.74406 2.46334 8.72913L8.94127 8.41234L11.2992 2.23263C11.4101 1.94201 11.6889 1.75 12 1.75Z" fill="#9EEF06"/>
+                <path d="M40 1.75C40.311 1.75 40.5898 1.94201 40.7007 2.23263L43.0587 8.41234L49.5366 8.72913C49.8418 8.74406 50.1074 8.94263 50.2081 9.23111C50.3088 9.5196 50.2244 9.84032 49.9947 10.0419L45.0648 14.3695L46.8767 21.3106C46.9558 21.6135 46.8383 21.9338 46.5821 22.1137C46.3258 22.2937 45.9848 22.2956 45.7266 22.1183L40 18.1875L34.2733 22.1183C34.0152 22.2956 33.6741 22.2937 33.4178 22.1137C33.1616 21.9338 33.0441 21.6135 33.1232 21.3106L34.9352 14.3695L30.0052 10.0419C29.7756 9.84032 29.6912 9.5196 29.7919 9.23111C29.8925 8.94263 30.1581 8.74406 30.4633 8.72913L36.9413 8.41234L39.2992 2.23263C39.4101 1.94201 39.6889 1.75 40 1.75Z" fill="#9EEF06"/>
+                <path d="M68 1.75C68.311 1.75 68.5898 1.94201 68.7007 2.23263L71.0587 8.41234L77.5366 8.72913C77.8418 8.74406 78.1074 8.94263 78.2081 9.23111C78.3088 9.5196 78.2244 9.84032 77.9947 10.0419L73.0648 14.3695L74.8767 21.3106C74.9558 21.6135 74.8383 21.9338 74.5821 22.1137C74.3258 22.2937 73.9848 22.2956 73.7266 22.1183L68 18.1875L62.2733 22.1183C62.0152 22.2956 61.6741 22.2937 61.4178 22.1137C61.1616 21.9338 61.0441 21.6135 61.1232 21.3106L62.9352 14.3695L58.0052 10.0419C57.7756 9.84032 57.6912 9.5196 57.7919 9.23111C57.8925 8.94263 58.1581 8.74406 58.4633 8.72913L64.9413 8.41234L67.2992 2.23263C67.4101 1.94201 67.6889 1.75 68 1.75Z" fill="#9EEF06"/>
+                <path d="M96 1.75C96.311 1.75 96.5898 1.94201 96.7007 2.23263L99.0587 8.41234L105.537 8.72913C105.842 8.74406 106.107 8.94263 106.208 9.23111C106.309 9.5196 106.224 9.84032 105.995 10.0419L101.065 14.3695L102.877 21.3106C102.956 21.6135 102.838 21.9338 102.582 22.1137C102.326 22.2937 101.985 22.2956 101.727 22.1183L96 18.1875L90.2733 22.1183C90.0152 22.2956 89.6741 22.2937 89.4178 22.1137C89.1616 21.9338 89.0441 21.6135 89.1232 21.3106L90.9352 14.3695L86.0052 10.0419C85.7756 9.84032 85.6912 9.5196 85.7919 9.23111C85.8925 8.94263 86.1581 8.74406 86.4633 8.72913L92.9413 8.41234L95.2992 2.23263C95.4101 1.94201 95.6889 1.75 96 1.75Z" fill="#9EEF06"/>
+                <path d="M124.197 1.27048C124.651 1.36378 124.977 1.7638 124.977 2.22779V18.4504L117.13 22.6354C116.777 22.8237 116.345 22.7778 116.04 22.5198C115.734 22.2617 115.617 21.8435 115.743 21.4641L118.006 14.6775L113.504 9.72605C113.244 9.43983 113.177 9.02706 113.334 8.67331C113.49 8.31956 113.84 8.0914 114.227 8.0914H120.424L123.102 1.84283C123.285 1.41635 123.742 1.17719 124.197 1.27048Z" fill="#9EEF06"/>
+                <path d="M127.411 7.70642L127.576 8.09139H133.773C134.159 8.09139 134.51 8.31955 134.666 8.6733C134.823 9.02705 134.756 9.43982 134.496 9.72604L129.994 14.6775L132.257 21.4641C132.383 21.8435 132.266 22.2617 131.96 22.5198C131.654 22.7778 131.223 22.8237 130.87 22.6354L126.5 20.305V18.342H126.973L129.628 19.7579L127.778 14.2097L131.563 10.0459H126.5V7.70642H127.411Z" fill="#C4C4C4"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="stats-card__divider" aria-hidden="true"></div>
+
+          <!-- Experience -->
+          <div class="stats-card__col">
+            <span class="stats-card__number">19+</span>
+            <span class="stats-card__desc">Years successful experience</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Right: Floating Marquee Tickers (over the doctor's arm) -->
+      <div class="hero-card__ticker-wrapper">
+        <!-- Row 1: Scroll Left -->
+        <div class="ticker-wrapper hero__ticker-line">
+          <div class="ticker-track ticker-track--left" aria-hidden="true">
+            {[...tickerRow1, ...tickerRow1].map((tag) => (
+              <span class="hero-tag-pill">{tag}</span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Row 2: Scroll Right -->
+        <div class="ticker-wrapper hero__ticker-line">
+          <div class="ticker-track ticker-track--right" aria-hidden="true">
+            {[...tickerRow2, ...tickerRow2].map((tag) => (
+              <span class="hero-tag-pill">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ---- Outer Section ---- */
+.hero-section {
+  padding-top: calc(var(--nav-height) + 12px);
+  padding-bottom: var(--space-6);
+  background-color: var(--color-white);
+}
+
+/* ---- Main Hero Card Canvas ---- */
+.hero-card {
+  position: relative;
+  width: 100%;
+  height: clamp(640px, 48vw, 770px);
+  border-radius: 32px;
+  overflow: hidden;
+  background-color: #eaf1ff;
+  box-shadow: 0 4px 32px rgba(5, 41, 39, 0.04);
+}
+
+/* Full-bleed background doctor image */
+.hero-card__bg-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Left Content Wrapper (overlay on top of the left half of the card) */
+.hero-card__left {
+  position: absolute;
+  top: clamp(48px, 4.2vw, 64px);
+  left: clamp(48px, 4.2vw, 64px);
+  bottom: clamp(48px, 4.2vw, 64px);
+  width: 48%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  background: transparent; /* No blocking background */
+}
+
+/* Main Text Content */
+.hero-card__main-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__avatars {
+  margin-bottom: 20px;
+}
+
+.hero__avatars-img {
+  width: 156px;
+  height: auto;
+  display: block;
+}
+
+.hero__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.6rem, 3.8vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+}
+
+.hero__subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-teal-mid);
+  max-width: 460px;
+  margin-bottom: 28px;
+}
+
+/* Button Group */
+.hero__buttons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero__btn-blue {
+  font-size: 0.9375rem;
+}
+
+.hero__btn-white {
+  font-size: 0.9375rem;
+  background: #ffffff;
+  border: 1.5px solid var(--color-border-blue);
+  color: var(--color-primary);
+}
+
+/* Bottom Left: Statistics Card */
+.hero__stats-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  min-height: 122px;
+  padding: 24px 32px;
+  box-shadow: 0 4px 20px rgba(5, 41, 39, 0.06);
+  width: fit-content;
+}
+
+.stats-card__col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stats-card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.stats-card__number {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-primary);
+}
+
+.stats-card__label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-teal-mid);
+}
+
+.stats-card__desc {
+  font-size: 0.8125rem;
+  color: var(--color-teal-mid);
+  font-weight: 500;
+  max-width: 130px;
+  line-height: 1.35;
+}
+
+.stats-card__stars {
+  display: flex;
+  align-items: center;
+}
+
+.stats-card__divider {
+  width: 1px;
+  height: 68px;
+  background-color: var(--color-border-teal);
+  flex-shrink: 0;
+}
+
+/* Bottom Right: Floating Ticker Area */
+.hero-card__ticker-wrapper {
+  position: absolute;
+  right: 36px;
+  bottom: 60px;
+  width: 570px;
+  max-width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero__ticker-line {
+  overflow: hidden;
+  width: 100%;
+}
+
+.ticker-track {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  will-change: transform;
+}
+
+.ticker-track--left {
+  animation: hero-ticker-left 28s linear infinite;
+}
+
+.ticker-track--right {
+  animation: hero-ticker-right 28s linear infinite;
+}
+
+@keyframes hero-ticker-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes hero-ticker-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.hero-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  box-shadow: 0 2px 10px rgba(5, 41, 39, 0.04);
+  white-space: nowrap;
+}
+
+/* Keep the reference's side-by-side composition through tablet landscape.
+   The previous 1024px breakpoint turned the image into a full-width normal-flow
+   block, which made the portrait appear oversized and pushed all copy below it. */
+@media (max-width: 1100px) and (min-width: 861px) {
+  .hero-card {
+    height: 640px;
+  }
+
+  .hero-card__left {
+    top: 40px;
+    left: 40px;
+    bottom: 40px;
+    width: 52%;
+  }
+
+  .hero__title {
+    font-size: clamp(2.45rem, 4.5vw, 3.1rem);
+  }
+
+  .hero__subtitle {
+    max-width: 420px;
+  }
+
+  .hero__stats-card {
+    min-height: 106px;
+    padding: 20px 24px;
+  }
+
+  .stats-card__number {
+    font-size: 2.15rem;
+  }
+
+  .hero-card__ticker-wrapper {
+    right: 24px;
+    bottom: 36px;
+    width: 420px;
+    max-width: 41%;
+  }
+}
+
+/* Compact screens use a composed overlay rather than rendering the raw image
+   as a tall first row. The image keeps its aspect ratio and stays supporting. */
+@media (max-width: 860px) {
+  .hero-card {
+    height: 760px;
+    min-height: 0;
+  }
+
+  .hero-card__bg-image {
+    object-position: 62% center;
+  }
+
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(237, 242, 255, 0.98) 0%, rgba(237, 242, 255, 0.94) 48%, rgba(237, 242, 255, 0.2) 100%);
+  }
+
+  .hero-card__left {
+    top: 32px;
+    left: 32px;
+    right: 32px;
+    bottom: 32px;
+    width: auto;
+    max-width: 540px;
+  }
+
+  .hero-card__ticker-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 809px) {
+  .hero-card {
+    height: clamp(820px, 122vw, 860px);
+    border-radius: 20px;
+  }
+
+  .hero-card__left {
+    top: 24px;
+    left: 20px;
+    right: 20px;
+    bottom: 150px;
+  }
+
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .hero__buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero__btn-blue,
+  .hero__btn-white {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero__stats-card {
+    width: 100%;
+    min-height: 0;
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .stats-card__divider {
+    height: 56px;
+  }
+
+  .stats-card__number {
+    font-size: 2rem;
+  }
+
+  .stats-card__desc {
+    max-width: 118px;
+  }
+
+  .hero-card__ticker-wrapper {
+    right: 20px;
+    bottom: 24px;
+    width: calc(100% - 40px);
+    max-width: none;
+    display: flex;
+    gap: 8px;
+  }
+
+  .hero-tag-pill {
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.92);
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-section {
+    padding-top: calc(var(--nav-height) + 8px);
+  }
+
+  .hero-card {
+    height: 820px;
+  }
+
+  .hero-card__bg-image {
+    object-position: 58% center;
+    opacity: 0.72;
+  }
+
+  .hero-card::after {
+    background: linear-gradient(180deg, rgba(237, 242, 255, 0.98) 0%, rgba(237, 242, 255, 0.9) 68%, rgba(237, 242, 255, 0.72) 100%);
+  }
+
+  .hero__avatars {
+    margin-bottom: 16px;
+  }
+
+  .hero__avatars-img {
+    width: 132px;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 10vw, 2.55rem);
+  }
+
+  .hero__subtitle {
+    font-size: 0.9375rem;
+    margin-bottom: 20px;
+  }
+
+  .hero__stats-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .stats-card__divider {
+    height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation-play-state: paused;
+  }
+}
+</style>

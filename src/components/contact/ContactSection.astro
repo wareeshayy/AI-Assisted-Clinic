@@ -1,0 +1,453 @@
+---
+interface Props {
+  standalone?: boolean;
+}
+
+const { standalone = false } = Astro.props;
+const HeadingTag = standalone ? 'h1' : 'h2';
+---
+
+<section class:list={['contact-page', { 'contact-page--standalone': standalone }]} aria-labelledby="contact-title">
+  <div class="contact-page__shell">
+    <div class="contact-story">
+      <header class="contact-story__header">
+        <div class="contact-story__eyebrow">
+          <span>Contact Form</span><span class="contact-story__line" aria-hidden="true"></span>
+        </div>
+        <HeadingTag class="contact-story__title" id="contact-title">Get Your Best Smile Yet!</HeadingTag>
+      </header>
+
+      <figure class="contact-story__media">
+        <img
+          src="https://framerusercontent.com/images/h8cMHUJF0iFS5DWd7KEI6YEQS2M.png?width=2340&height=2184"
+          alt="Doctor greeting an elderly man and child"
+          width="2340"
+          height="2184"
+          loading={standalone ? 'eager' : 'lazy'}
+          fetchpriority={standalone ? 'high' : 'low'}
+        />
+        <figcaption class="contact-story__caption">
+          <span>Empowering Healthy Smiles Through<br />Expert Care for Your Family</span>
+          <span class="contact-story__mark" aria-hidden="true">
+            <img src="/favicon.svg" alt="" width="48" height="48" style="width: 48px; height: 48px; object-fit: contain;" />
+          </span>
+        </figcaption>
+      </figure>
+
+      <p class="contact-story__support">
+        Whether you need routine dental care or a complete smile transformation, our team is ready to help you achieve confident, healthy teeth and lasting confidence.
+      </p>
+    </div>
+
+    <div class="contact-panel">
+      <h2>Send us a message</h2>
+
+      <form class="contact-form">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" name="fullName" type="text" placeholder="Enter your full name" autocomplete="name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Enter your email" autocomplete="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" type="tel" placeholder="Enter your phone number" autocomplete="tel" />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Type your message here" rows="6" required minlength="10"></textarea>
+        </div>
+
+        <div class="form-message form-message--success" role="status" aria-live="polite" hidden>
+          Thank you. Your message has been received and our team will be in touch within 24 hours.
+        </div>
+        <div class="form-message form-message--error" role="alert" aria-live="polite" hidden>
+          We couldn’t send your message. Please try again or call +92 300 1234567.
+        </div>
+
+        <button type="submit" class="contact-form__submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.contact-form').forEach((form) => {
+    if (form.dataset.ready === 'true') return;
+    form.dataset.ready = 'true';
+
+    const submitButton = form.querySelector<HTMLButtonElement>('.contact-form__submit');
+    const successMessage = form.querySelector<HTMLElement>('.form-message--success');
+    const errorMessage = form.querySelector<HTMLElement>('.form-message--error');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!submitButton || !successMessage || !errorMessage || !form.reportValidity()) return;
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending…';
+      successMessage.hidden = true;
+      errorMessage.hidden = true;
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+
+        if (!response.ok) throw new Error('Contact request failed');
+        form.reset();
+        successMessage.hidden = false;
+      } catch {
+        errorMessage.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Send Message';
+      }
+    });
+  });
+</script>
+
+<style>
+  .contact-page {
+    width: 100%;
+    padding: 96px 0;
+    background: var(--color-white);
+  }
+
+  .contact-page--standalone {
+    padding-top: calc(var(--nav-height) + 96px);
+  }
+
+  .contact-page__shell {
+    width: 100%;
+    max-width: 1640px;
+    margin: 0 auto;
+    padding: 0 100px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(500px, 586px);
+    gap: 178px;
+    align-items: start;
+  }
+
+  .contact-story {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .contact-story__header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-story__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-primary);
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .contact-story__line {
+    width: 48px;
+    height: 1px;
+    position: relative;
+    background: currentColor;
+  }
+
+  .contact-story__line::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    border-radius: 50%;
+    background: currentColor;
+    transform: translateY(-50%);
+  }
+
+  .contact-story__title {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: clamp(42px, 3.15vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .contact-story__media {
+    width: 100%;
+    height: 522px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--color-bg-light);
+  }
+
+  .contact-story__media > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 48%;
+  }
+
+  .contact-story__caption {
+    min-height: 76px;
+    position: absolute;
+    right: 24px;
+    bottom: 26px;
+    left: 24px;
+    padding: 12px 14px 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-radius: 14px;
+    background: var(--color-white);
+    color: var(--color-teal-mid);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .contact-story__mark {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+  }
+
+  .contact-story__support {
+    max-width: 620px;
+    color: var(--color-teal-mid);
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .contact-panel {
+    min-height: 758px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    border-radius: 32px;
+    background: var(--color-bg-light);
+  }
+
+  .contact-panel h2 {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-group label {
+    color: var(--color-primary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    min-height: 54px;
+    padding: 14px 12px;
+    border: 1px solid var(--color-border-teal);
+    border-radius: 10px;
+    outline: none;
+    background: var(--color-white);
+    color: var(--color-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    caret-color: var(--color-accent);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .form-group textarea {
+    min-height: 160px;
+    resize: vertical;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--color-teal-mid);
+    opacity: 0.9;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(4, 84, 255, 0.12);
+  }
+
+  .contact-form__submit {
+    width: 100%;
+    min-height: 56px;
+    margin-top: 14px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--color-accent);
+    border-radius: 42px;
+    background: var(--color-white);
+    color: var(--color-teal-mid);
+    font-size: 16px;
+    font-weight: 500;
+    transition: color var(--transition-normal), background-color var(--transition-normal), transform var(--transition-normal);
+  }
+
+  .contact-form__submit:hover:not(:disabled) {
+    background: var(--color-accent);
+    color: var(--color-white);
+    transform: translateY(-2px);
+  }
+
+  .contact-form__submit:focus-visible {
+    outline: 3px solid rgba(4, 84, 255, 0.28);
+    outline-offset: 3px;
+  }
+
+  .contact-form__submit:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  .form-message {
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .form-message--success {
+    background: #e8f5f1;
+    color: #075a50;
+  }
+
+  .form-message--error {
+    background: #fff0ef;
+    color: #9f251e;
+  }
+
+  @media (max-width: 1699px) {
+    .contact-page__shell {
+      grid-template-columns: minmax(0, 1fr) minmax(480px, 540px);
+      gap: 80px;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .contact-page {
+      padding: 64px 0;
+    }
+
+    .contact-page--standalone {
+      padding-top: calc(var(--nav-height) + 64px);
+    }
+
+    .contact-page__shell {
+      padding: 0 40px;
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+
+    .contact-story,
+    .contact-panel {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 809px) {
+    .contact-page {
+      padding: 64px 0;
+    }
+
+    .contact-page--standalone {
+      padding-top: calc(var(--nav-height) + 40px);
+    }
+
+    .contact-page__shell {
+      padding: 0 20px;
+      gap: 40px;
+    }
+
+    .contact-story {
+      gap: 24px;
+    }
+
+    .contact-story__header {
+      gap: 16px;
+    }
+
+    .contact-story__eyebrow {
+      font-size: 15px;
+    }
+
+    .contact-story__title {
+      font-size: clamp(36px, 11vw, 44px);
+    }
+
+    .contact-story__media {
+      height: min(116vw, 540px);
+      border-radius: 18px;
+    }
+
+    .contact-story__caption {
+      right: 14px;
+      bottom: 14px;
+      left: 14px;
+      font-size: 14px;
+    }
+
+    .contact-story__support {
+      font-size: 16px;
+    }
+
+    .contact-panel {
+      min-height: 0;
+      padding: 24px 20px;
+      gap: 32px;
+      border-radius: 22px;
+    }
+
+    .contact-panel h2 {
+      font-size: 28px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-form__submit,
+    .form-group input,
+    .form-group textarea {
+      transition: none;
+    }
+  }
+</style>

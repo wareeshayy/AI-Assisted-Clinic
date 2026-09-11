@@ -1,0 +1,406 @@
+---
+// Navbar — Matches dentara.framer.ai template
+const navLinks = [
+  { label: 'Home',    href: '/' },
+  { label: 'About',   href: '/about' },
+  { label: 'Service', href: '/services' },
+  { label: 'Team',    href: '/team' },
+  { label: 'Book a visit', href: '/booking' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="navbar" id="navbar">
+  <div class="navbar__inner container">
+    <!-- Logo -->
+    <a href="/" class="navbar__logo" aria-label="Dentara home">
+      <div class="navbar__logo-icon">
+        <img src="/favicon.svg" alt="" width="44" height="44" />
+      </div>
+      <span class="navbar__logo-text">Dentara</span>
+    </a>
+
+    <!-- Center Nav Pill -->
+    <nav class="navbar__nav-pill" aria-label="Main navigation">
+      {navLinks.map(({ label, href }) => {
+        const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+        return (
+          <a
+            href={href}
+            class:list={['navbar__link', { 'navbar__link--active': isActive }]}
+          >
+            {label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Right Action Button -->
+    <div class="navbar__actions">
+      <a href="/contact" class="btn btn-primary navbar__cta">
+        <span class="btn-text">Contact Us</span>
+        <span class="btn-icon-circle" aria-hidden="true">
+          <span class="btn-arrow btn-arrow--primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+          <span class="btn-arrow btn-arrow--clone">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+        </span>
+      </a>
+
+      <!-- Mobile Hamburger -->
+      <button class="navbar__hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="navbar__hamburger-bar"></span>
+        <span class="navbar__hamburger-bar"></span>
+        <span class="navbar__hamburger-bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="navbar__mobile" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation" aria-hidden="true">
+    <div class="navbar__mobile-inner">
+      <nav class="navbar__mobile-links">
+        {navLinks.map(({ label, href }) => (
+          <a href={href} class="navbar__mobile-link">{label}</a>
+        ))}
+      </nav>
+      <a href="/contact" class="btn btn-primary navbar__mobile-cta">
+        <span class="btn-text">Contact Us</span>
+        <span class="btn-icon-circle" aria-hidden="true">
+          <span class="btn-arrow btn-arrow--primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+          <span class="btn-arrow btn-arrow--clone">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+        </span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const navbar = document.getElementById('navbar')!;
+  const hamburger = document.getElementById('hamburger')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+
+  const setMenuOpen = (open: boolean) => {
+    hamburger.setAttribute('aria-expanded', String(open));
+    hamburger.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    mobileMenu.setAttribute('aria-hidden', String(!open));
+    hamburger.classList.toggle('is-open', open);
+    mobileMenu.classList.toggle('is-open', open);
+    navbar.classList.toggle('menu-is-open', open);
+    document.body.classList.toggle('menu-open', open);
+
+    if (open) {
+      window.requestAnimationFrame(() => {
+        mobileMenu.querySelector<HTMLAnchorElement>('.navbar__mobile-link')?.focus();
+      });
+    }
+  };
+
+  hamburger.addEventListener('click', () => {
+    setMenuOpen(hamburger.getAttribute('aria-expanded') !== 'true');
+  });
+
+  mobileMenu.addEventListener('click', (event) => {
+    if (event.target === mobileMenu || (event.target as HTMLElement).closest('a')) setMenuOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') {
+      setMenuOpen(false);
+      hamburger.focus();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024 && hamburger.getAttribute('aria-expanded') === 'true') setMenuOpen(false);
+  });
+
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('is-scrolled', window.scrollY > 15);
+  }, { passive: true });
+</script>
+
+<style>
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.navbar.is-scrolled {
+  box-shadow: 0 4px 20px rgba(5, 41, 39, 0.05);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+  gap: 20px;
+}
+
+/* ---- Logo ---- */
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.navbar__logo-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__logo-icon img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.navbar__logo-text {
+  font-family: var(--font-heading);
+  font-size: 1.625rem; /* 26px */
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+/* ---- Nav Pill ---- */
+.navbar__nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border-blue);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+}
+
+.navbar__link {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.navbar__link:hover {
+  color: var(--color-teal-mid);
+}
+
+.navbar__link--active {
+  color: var(--color-teal-mid);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---- Actions ---- */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 102;
+}
+
+/* ---- Hamburger ---- */
+.navbar__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border-teal);
+  cursor: pointer;
+}
+
+.navbar__hamburger-bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.navbar__hamburger.is-open .navbar__hamburger-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar__hamburger.is-open .navbar__hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+.navbar__hamburger.is-open .navbar__hamburger-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---- Mobile Menu ---- */
+.navbar__mobile {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 41, 39, 0.6);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 99;
+}
+
+.navbar__mobile.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.navbar__mobile-inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(380px, calc(100vw - 24px));
+  background: var(--color-white);
+  padding: 100px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar__mobile.is-open .navbar__mobile-inner {
+  transform: translateX(0);
+}
+
+.navbar__mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navbar__mobile-link {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  min-height: 54px;
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-teal);
+}
+
+.navbar__mobile-cta {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    background: var(--color-white);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .navbar__nav-pill {
+    display: none;
+  }
+  .navbar__hamburger {
+    display: flex;
+  }
+
+  .navbar__cta {
+    transition: opacity var(--transition-fast), visibility var(--transition-fast);
+  }
+
+  .navbar.menu-is-open .navbar__cta {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar__inner {
+    gap: 12px;
+  }
+
+  .navbar__logo {
+    gap: 10px;
+    position: relative;
+    z-index: 102;
+  }
+
+  .navbar__logo-icon,
+  .navbar__logo-icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar__logo-text {
+    font-size: clamp(1.25rem, 6.2vw, 1.5rem);
+  }
+
+  .navbar__cta {
+    display: none;
+  }
+
+  .navbar__actions {
+    gap: 0;
+  }
+
+  .navbar__mobile-inner {
+    width: 100%;
+    padding: calc(var(--nav-height) + 24px) 20px max(32px, env(safe-area-inset-bottom));
+  }
+
+  .navbar__mobile-link {
+    font-size: 1.5rem;
+  }
+}
+
+:global(body.menu-open) {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navbar__mobile,
+  .navbar__mobile-inner,
+  .navbar__hamburger-bar {
+    transition: none;
+  }
+}
+</style>

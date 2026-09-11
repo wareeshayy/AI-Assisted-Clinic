@@ -1,0 +1,147 @@
+/* ============================================
+   CLINICNAME — Typography System
+   Matches Framer template type presets
+   ============================================ */
+
+/* --- Section Tag / Eyebrow --- */
+/* framer-styles-preset-1ckzkr5 */
+.text-tag {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* --- Display / Hero Heading (H1) --- */
+/* framer-styles-preset-t4uk82 — large display */
+.text-display {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.02em;
+}
+
+/* --- Section Heading (H2) --- */
+.text-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.02em;
+}
+
+/* --- Card / Sub Heading (H3) --- */
+/* framer-styles-preset-fqff9e */
+.text-subheading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+
+/* --- Card Title (H4) --- */
+/* framer-styles-preset-1llbsnh, framer-styles-preset-1bg0pyv */
+.text-card-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+}
+
+/* --- Body / Subtitle --- */
+/* framer-styles-preset-ufxhgr */
+.text-body {
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+}
+
+/* --- Caption / Small --- */
+/* framer-styles-preset-v3fayc */
+.text-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: var(--leading-normal);
+}
+
+/* --- Statistics Number (H2 bold) --- */
+.text-stat {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* --- Button Text --- */
+/* framer-styles-preset-mz7iuh */
+.text-button {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: var(--leading-normal);
+}
+
+/* --- Nav Link --- */
+.text-nav {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* --- Prose (Markdown body content) --- */
+.prose {
+  color: var(--color-primary);
+  max-width: 72ch;
+}
+
+.prose h2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-4);
+}
+
+.prose h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+}
+
+.prose p {
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--color-teal-mid);
+  margin-bottom: var(--space-4);
+}
+
+.prose ul {
+  list-style: disc;
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.prose li {
+  font-size: var(--text-md);
+  color: var(--color-teal-mid);
+  margin-bottom: var(--space-2);
+}
+
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.prose strong {
+  font-weight: 700;
+  color: var(--color-primary);
+}

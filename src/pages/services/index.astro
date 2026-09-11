@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/layout/Navbar.astro';
+import Footer from '../../components/layout/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services');
+const sorted = services.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Our Services — Dentara Dental Clinic"
+  description="Explore Dentara's full range of dental services including cosmetic dentistry, orthodontics, teeth whitening, emergency care, pediatric dentistry, and general checkups."
+>
+  <Navbar />
+  <main id="main" tabindex="-1">
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="page-hero__tag">
+          <span>What We Offer</span>
+        </div>
+        <h1 class="page-hero__heading">Our Services</h1>
+        <p class="page-hero__subtitle">
+          Comprehensive dental care tailored to every member of your family. From preventive checkups to complete smile transformations.
+        </p>
+      </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="all-services section">
+      <div class="container">
+        <div class="all-services__grid">
+          {sorted.map((service) => (
+            <article class="service-card">
+              <a href={`/services/${service.slug}`} class="service-card__link" aria-label={`Learn about ${service.data.title}`}>
+                <div class="service-card__image-wrapper">
+                  <img
+                    src={service.data.image}
+                    alt={service.data.imageAlt}
+                    class="service-card__image"
+                    width="480"
+                    height="320"
+                    loading="lazy"
+                  />
+                  <div class="service-card__overlay"></div>
+                </div>
+                <div class="service-card__content">
+                  <span class="service-card__category">{service.data.category}</span>
+                  <h2 class="service-card__title">{service.data.title}</h2>
+                  <p class="service-card__desc">{service.data.shortDescription}</p>
+                  <div class="service-card__btn">
+                    Get This Service
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+/* ---- Page Hero ---- */
+.page-hero {
+  background-color: var(--color-bg-light);
+  padding: calc(var(--nav-height) + var(--space-20)) 0 var(--space-20);
+}
+
+.page-hero__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-teal-mid);
+  margin-bottom: var(--space-5);
+}
+
+.page-hero__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+  margin-bottom: var(--space-5);
+}
+
+.page-hero__subtitle {
+  font-size: var(--text-md);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+  max-width: 600px;
+}
+
+/* ---- Grid ---- */
+.all-services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+/* ---- Service Card ---- */
+.service-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-white);
+  border: 1px solid var(--color-border-teal);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.service-card__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  height: 100%;
+}
+
+.service-card__image-wrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+
+.service-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-card:hover .service-card__image {
+  transform: scale(1.05);
+}
+
+.service-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(5,41,39,0.5) 100%);
+}
+
+.service-card__content {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.service-card__category {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-teal-mid);
+}
+
+.service-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: var(--leading-snug);
+}
+
+.service-card__desc {
+  font-size: var(--text-sm);
+  color: var(--color-teal-mid);
+  line-height: var(--leading-relaxed);
+  flex: 1;
+}
+
+.service-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-2xl);
+  padding: 10px 18px;
+  width: fit-content;
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 1024px) {
+  .all-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 809px) {
+  .all-services__grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

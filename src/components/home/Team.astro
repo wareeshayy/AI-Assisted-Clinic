@@ -1,0 +1,238 @@
+---
+const team = [
+  { name: 'Sophia Reynolds', role: 'General Dental Surgeon', image: 'https://framerusercontent.com/images/ArC2nFrhbayCZgr5rViWO5aoOPQ.png?width=1104&height=1056' },
+  { name: 'Ryan Mitchell', role: 'Dental Implant Specialist', image: 'https://framerusercontent.com/images/gCRAksUkFYPU8Tvamyl6mr81o6s.png?width=1104&height=1056' },
+  { name: 'Emma Collins', role: 'Pediatric Dentist', image: 'https://framerusercontent.com/images/6GWHhYg8lcufpjDazJdwjr6BI4k.png?width=1104&height=1056' },
+  { name: 'Daniel Carter', role: 'General Dental Surgeon', image: 'https://framerusercontent.com/images/9mezuttytiTne9TOtEeexmu4VhY.png?width=1104&height=1056' },
+  { name: 'Olivia Parker', role: 'Cosmetic Dental Specialist', image: 'https://framerusercontent.com/images/oD8f39R4sMofa3llNu0buQ5Zfc.png?width=1104&height=1056' },
+  { name: 'Ethan Brooks', role: 'Orthodontic Expert', image: 'https://framerusercontent.com/images/HRNla5C8JPAefCjDgfK8J3UayHg.png?width=1051&height=955' },
+];
+---
+
+<section class="team-marquee" aria-labelledby="team-title" data-team-loop>
+  <header class="team-marquee__header">
+    <div class="team-marquee__eyebrow reveal">
+      <span>Our Teams</span><span class="team-marquee__line" aria-hidden="true"></span>
+    </div>
+    <h2 id="team-title" class="team-marquee__title reveal reveal-delay-2">Meet Our Dental Team</h2>
+    <p class="team-marquee__intro reveal reveal-delay-3">
+      Skilled and compassionate dentists dedicated to delivering trusted dental care every day.
+    </p>
+  </header>
+
+  <div class="team-marquee__viewport" aria-label="Dentara dental team">
+    <div class="team-marquee__track">
+      {[0, 1].map((copy) => (
+        <ul class="team-marquee__set" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {team.map((member, index) => (
+            <li class={`team-member ${index === 3 ? 'team-member--offset' : ''}`}>
+              <figure class="team-member__portrait">
+                <img src={member.image} alt={copy === 0 ? member.name : ''} width="1104" height="1056" loading="lazy" draggable="false" />
+              </figure>
+              <div class="team-member__copy">
+                <h3>{member.name}</h3>
+                <p>{member.role}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const initializeTeamLoop = () => {
+    document.querySelectorAll('[data-team-loop]').forEach((section) => {
+      if (!(section instanceof HTMLElement) || section.dataset.loopReady === 'true') return;
+      let isVisible = false;
+      const updatePlayback = () => section.classList.toggle('is-paused', !isVisible || document.hidden);
+      const observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry?.isIntersecting ?? false;
+        updatePlayback();
+      }, { rootMargin: '120px 0px' });
+      observer.observe(section);
+      document.addEventListener('visibilitychange', updatePlayback);
+      section.dataset.loopReady = 'true';
+      updatePlayback();
+    });
+  };
+  initializeTeamLoop();
+  document.addEventListener('astro:page-load', initializeTeamLoop);
+</script>
+
+<style>
+  .team-marquee {
+    width: 100%;
+    padding: 112px 0 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    overflow: hidden;
+    background: var(--color-white);
+  }
+
+  .team-marquee__header {
+    width: min(100% - 40px, 650px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .team-marquee__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-primary);
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .team-marquee__line {
+    width: 48px;
+    height: 1px;
+    position: relative;
+    background: currentColor;
+  }
+
+  .team-marquee__line::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    border-radius: 50%;
+    background: currentColor;
+    transform: translateY(-50%);
+  }
+
+  .team-marquee__title {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: clamp(40px, 3.1vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .team-marquee__intro {
+    max-width: 518px;
+    color: var(--color-teal-mid);
+    font-size: 18px;
+    line-height: 1.5;
+    text-wrap: balance;
+  }
+
+  .team-marquee__viewport {
+    width: 100%;
+    min-height: 400px;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  }
+
+  .team-marquee__track {
+    width: max-content;
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    animation: team-scroll 38s linear infinite;
+    will-change: transform;
+  }
+
+  .team-marquee__set {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .team-member {
+    width: 276px;
+    flex: 0 0 276px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .team-member--offset { padding-top: 50px; }
+
+  .team-member__portrait {
+    width: 100%;
+    height: 264px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--color-bg-light);
+  }
+
+  .team-member__portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .team-member:hover .team-member__portrait img { transform: scale(1.035); }
+
+  .team-member__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .team-member__copy h3 {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .team-member__copy p {
+    color: var(--color-teal-mid);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .team-marquee.is-paused .team-marquee__track,
+  .team-marquee__viewport:hover .team-marquee__track { animation-play-state: paused; }
+
+  @keyframes team-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-50% - 16px)); }
+  }
+
+  @media (max-width: 809px) {
+    .team-marquee { padding: 64px 0 48px; gap: 32px; }
+    .team-marquee__header { gap: 20px; }
+    .team-marquee__eyebrow { font-size: 15px; }
+    .team-marquee__title { font-size: clamp(34px, 10vw, 42px); }
+    .team-marquee__intro { font-size: 16px; }
+    .team-marquee__viewport {
+      min-height: 350px;
+      mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+    }
+    .team-marquee__track, .team-marquee__set { gap: 20px; }
+    .team-marquee__track { animation-duration: 32s; }
+    .team-member { width: 238px; flex-basis: 238px; }
+    .team-member__portrait { height: 228px; }
+    .team-member--offset { padding-top: 36px; }
+    @keyframes team-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(-50% - 10px)); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .team-marquee__viewport { padding: 0 20px; overflow: visible; mask-image: none; }
+    .team-marquee__track { width: 100%; animation: none; will-change: auto; }
+    .team-marquee__set { width: 100%; flex-wrap: wrap; justify-content: center; }
+    .team-marquee__set:nth-child(2) { display: none; }
+    .team-member--offset { padding-top: 0; }
+  }
+</style>

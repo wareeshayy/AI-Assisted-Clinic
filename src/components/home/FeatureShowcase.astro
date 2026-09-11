@@ -1,0 +1,315 @@
+---
+const features = [
+  {
+    title: 'Personalised Dental Care',
+    description: 'Receive customized treatment plans tailored to your unique dental needs and smile goals.',
+    color: '#f94b25',
+    icon: 'tooth',
+  },
+  {
+    title: 'Dental Tech Innovations',
+    description: 'We use modern tools for accurate diagnosis and effective dental treatment for you.',
+    color: '#429c8c',
+    icon: 'bulb',
+  },
+  {
+    title: 'Pleasant Patient Experience',
+    description: 'Enjoy a stress-free and pain-free dental environment focused on your comfort and care.',
+    color: '#145aff',
+    icon: 'patient',
+  },
+  {
+    title: 'Preventive Oral Health',
+    description: 'Protect your teeth and gums with regular checkups, cleanings, and preventive dental solutions.',
+    color: '#429c8c',
+    icon: 'heart',
+  },
+  {
+    title: 'Smile Enhancement',
+    description: 'Improve your confidence with whitening, veneers, and advanced smile makeover treatments for a confident smile.',
+    color: '#145aff',
+    icon: 'smile',
+  },
+  {
+    title: 'Emergency Dental Support',
+    description: 'Get quick, reliable, and professional dental care whenever urgent oral health issues arise promptly.',
+    color: '#f94b25',
+    icon: 'support',
+  },
+];
+---
+
+<section class="feature-showcase" aria-labelledby="features-title">
+  <div class="feature-showcase__inner">
+    <header class="feature-showcase__header">
+      <div class="feature-showcase__eyebrow reveal">
+        <span>Features</span><span class="feature-showcase__line" aria-hidden="true"></span>
+      </div>
+      <h2 id="features-title" class="feature-showcase__title reveal reveal-delay-2">
+        Trusted Dental Care for the Family
+      </h2>
+      <p class="feature-showcase__intro reveal reveal-delay-3">
+        We offer reliable dental solutions designed to improve comfort, confidence, and long-term oral health.
+      </p>
+    </header>
+
+    <div class="feature-showcase__grid">
+      {features.map((feature, index) => (
+        <article class={`feature-showcase__card ${index % 2 === 0 ? 'feature-showcase__card--filled' : ''}`}>
+          <div class="feature-showcase__icon" style={`--icon-color:${feature.color}`} aria-hidden="true">
+            {feature.icon === 'tooth' && (
+              <svg viewBox="0 0 40 40"><path d="M11 7.5c-3.8 2.8-3.6 9.2-1.8 13.2 1.2 2.8 1.4 11.8 4.8 11.8 2.6 0 2.8-7.4 6-7.4s3.4 7.4 6 7.4c3.4 0 3.6-9 4.8-11.8 1.8-4 2-10.4-1.8-13.2-3-2.2-5.8.6-9 .6s-6-2.8-9-.6Z"/><path d="M15 15h10M20 10v10"/></svg>
+            )}
+            {feature.icon === 'bulb' && (
+              <svg viewBox="0 0 40 40"><path d="M28.8 24.7A11.2 11.2 0 1 0 11.2 24.7c2.2 2 3.4 3.3 3.8 5.3h10c.4-2 1.6-3.3 3.8-5.3Z"/><path d="M15 34h10M16.5 30v1.5A2.5 2.5 0 0 0 19 34h2a2.5 2.5 0 0 0 2.5-2.5V30M16 20h8M20 16v8"/></svg>
+            )}
+            {feature.icon === 'patient' && (
+              <svg viewBox="0 0 40 40"><circle cx="20" cy="10.5" r="5.5"/><path d="M11 33V22c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6v11M16 22v11M24 22v5h5M8 33h8M24 33h8"/></svg>
+            )}
+            {feature.icon === 'heart' && (
+              <svg viewBox="0 0 40 40"><path d="M20 33S7 26.3 7 16.2C7 10.6 13.8 7.7 20 13c6.2-5.3 13-2.4 13 3.2C33 26.3 20 33 20 33Z"/><path d="M13 20h4l2-4 3 8 2-4h4"/></svg>
+            )}
+            {feature.icon === 'smile' && (
+              <svg viewBox="0 0 40 40"><path d="M32 20a12 12 0 1 1-24 0M12 14l2.2-2.2L16.4 14M23.6 14l2.2-2.2L28 14M14 23c1.6 2 3.5 3 6 3s4.4-1 6-3"/><path d="m11 7 1 2.3L14.5 10 12 11l-1 2.2-1-2.2L7.5 10 10 9.3 11 7ZM29 6l.8 1.7 1.7.8-1.7.8L29 11l-.8-1.7-1.7-.8 1.7-.8L29 6Z"/></svg>
+            )}
+            {feature.icon === 'support' && (
+              <svg viewBox="0 0 40 40"><path d="M8 23v-5a12 12 0 0 1 24 0v5M8 22h5v10H9a3 3 0 0 1-3-3v-4a3 3 0 0 1 2-3ZM32 22h-5v10h4a3 3 0 0 0 3-3v-4a3 3 0 0 0-2-3ZM27 32c-1 2-3 3-6 3h-3"/></svg>
+            )}
+          </div>
+
+          <div class="feature-showcase__copy">
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature-showcase {
+    width: 100%;
+    padding: 120px 0;
+    background: var(--color-bg-light);
+    overflow: hidden;
+  }
+
+  .feature-showcase__inner {
+    width: 100%;
+    max-width: 1640px;
+    margin: 0 auto;
+    padding: 0 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .feature-showcase__header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .feature-showcase__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-primary);
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .feature-showcase__line {
+    width: 48px;
+    height: 1px;
+    background: currentColor;
+    position: relative;
+  }
+
+  .feature-showcase__line::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    border-radius: 50%;
+    background: currentColor;
+    transform: translateY(-50%);
+  }
+
+  .feature-showcase__title {
+    max-width: 650px;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: clamp(40px, 3.1vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+  }
+
+  .feature-showcase__intro {
+    max-width: 518px;
+    color: var(--color-teal-mid);
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .feature-showcase__grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: minmax(293px, auto);
+    gap: 0;
+  }
+
+  .feature-showcase__card {
+    min-width: 0;
+    min-height: 293px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 64px;
+    border-radius: 20px;
+    background: transparent;
+    transition: transform var(--transition-normal), background-color var(--transition-normal), box-shadow var(--transition-normal);
+  }
+
+  .feature-showcase__card--filled {
+    background: var(--color-white);
+  }
+
+  .feature-showcase__card:hover {
+    transform: translateY(-4px);
+  }
+
+  .feature-showcase__card--filled:hover {
+    box-shadow: 0 18px 44px rgba(5, 41, 39, 0.08);
+  }
+
+  .feature-showcase__icon {
+    width: 40px;
+    height: 40px;
+    color: var(--icon-color);
+    flex: 0 0 auto;
+  }
+
+  .feature-showcase__icon svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .feature-showcase__copy {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .feature-showcase__copy h3 {
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+
+  .feature-showcase__copy p {
+    color: var(--color-teal-mid);
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1439px) {
+    .feature-showcase {
+      padding: 60px 0;
+    }
+
+    .feature-showcase__inner {
+      padding: 0 40px;
+    }
+
+    .feature-showcase__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .feature-showcase__card {
+      min-height: 270px;
+    }
+
+    .feature-showcase__card:nth-child(3),
+    .feature-showcase__card:nth-child(4) {
+      background: var(--color-white);
+    }
+
+    .feature-showcase__card:nth-child(4) {
+      background: transparent;
+    }
+  }
+
+  @media (max-width: 809px) {
+    .feature-showcase {
+      padding: 40px 0;
+    }
+
+    .feature-showcase__inner {
+      padding: 0 20px;
+      gap: 32px;
+    }
+
+    .feature-showcase__header {
+      gap: 20px;
+    }
+
+    .feature-showcase__eyebrow {
+      font-size: 15px;
+    }
+
+    .feature-showcase__title {
+      max-width: 430px;
+      font-size: clamp(34px, 10vw, 42px);
+    }
+
+    .feature-showcase__intro,
+    .feature-showcase__copy p {
+      font-size: 16px;
+    }
+
+    .feature-showcase__grid {
+      grid-template-columns: 1fr;
+      gap: 24px 0;
+    }
+
+    .feature-showcase__card,
+    .feature-showcase__card:nth-child(4) {
+      min-height: 245px;
+      padding: 24px;
+      background: var(--color-white);
+    }
+
+    .feature-showcase__copy h3 {
+      font-size: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .feature-showcase__card {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: dentara-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEMO_PASSWORD
+        sync: false
+      - key: FRONTEND_ORIGINS
+        value: https://dentara-astro.pages.dev

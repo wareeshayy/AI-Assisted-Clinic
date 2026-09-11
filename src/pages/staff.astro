@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/staff.css';
+---
+
+<BaseLayout title="Dentara Staff — Clinic CRM" description="Secure clinic operations dashboard">
+  <main class="staff-app" id="staff-app" data-api={import.meta.env.PUBLIC_API_URL || 'http://localhost:8000/api'}>
+    <section class="login-view" id="login-view">
+      <div class="login-art" aria-hidden="true">
+        <a href="/" class="staff-brand"><img src="/favicon.svg" alt="" /> Dentara</a>
+        <div><span class="eyebrow">Clinic operations, thoughtfully connected</span><h1>Care begins before the appointment.</h1><p>One calm workspace for your patients, schedule, and clinical follow-up.</p></div>
+        <blockquote>“Designed to keep the team focused on people, not paperwork.”</blockquote>
+      </div>
+      <div class="login-panel">
+        <form id="login-form" class="login-card">
+          <a href="/" class="back-link">← Back to clinic website</a>
+          <span class="eyebrow">Staff portal</span><h2>Welcome back</h2><p>Sign in to continue to your clinic workspace.</p>
+          <label>Email address<input name="username" type="email" autocomplete="username" required /></label>
+          <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+          <p class="form-error" id="login-error" role="alert" hidden></p>
+          <button class="primary-button" type="submit">Sign in securely <span>→</span></button>
+          <div class="demo-accounts"><strong>Demo accounts</strong><button type="button" data-demo="frontdesk@dentara.test">Front desk</button><button type="button" data-demo="doctor@dentara.test">Doctor</button><small>Use the password configured by the site owner.</small></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="workspace" id="workspace" hidden>
+      <aside class="staff-sidebar">
+        <a href="/" class="staff-brand"><img src="/favicon.svg" alt="" /> Dentara</a>
+        <nav aria-label="Staff workspace"><button class="nav-item active" data-view="dashboard">⌂ <span>Overview</span></button><button class="nav-item" data-view="appointments">▣ <span>Appointments</span></button><button class="nav-item" data-view="patients">♙ <span>Patients</span></button></nav>
+        <div class="privacy-card"><strong>Privacy first</strong><p>Clinical summaries run locally. Patient data is never sent to an external AI service.</p></div>
+        <button id="logout" class="logout-button">↪ <span>Sign out</span></button>
+      </aside>
+      <div class="staff-main">
+        <header class="staff-topbar"><button class="mobile-nav" id="mobile-nav" aria-label="Toggle navigation">☰</button><div><p id="today-label"></p><h1 id="view-title">Good morning</h1></div><div class="user-chip"><span id="user-avatar">AK</span><div><strong id="user-name"></strong><small id="user-role"></small></div></div></header>
+        <div class="notice" id="notice" role="status" hidden></div>
+
+        <section class="staff-view" data-section="dashboard">
+          <div class="welcome-row"><div><span class="eyebrow">Today at a glance</span><h2>Your clinic is on track.</h2><p>Here’s what needs your attention today.</p></div><button class="primary-button front-only" data-open="appointment">+ New appointment</button></div>
+          <div class="metrics"><article><span>Today’s visits</span><strong id="metric-today">—</strong><small>Scheduled appointments</small></article><article><span>Waiting now</span><strong id="metric-waiting">—</strong><small>Checked in at reception</small></article><article><span>Completed</span><strong id="metric-completed">—</strong><small>Visits finished today</small></article><article><span>Patient records</span><strong id="metric-patients">—</strong><small>Active clinic profiles</small></article></div>
+          <article class="panel"><div class="panel-head"><div><span class="eyebrow">Today’s flow</span><h3>Upcoming appointments</h3></div><button class="text-button" data-view-link="appointments">View schedule →</button></div><div class="appointment-list" id="today-appointments"></div></article>
+        </section>
+
+        <section class="staff-view" data-section="appointments" hidden>
+          <div class="section-heading"><div><span class="eyebrow">Clinic schedule</span><h2>Appointments</h2><p>Coordinate visits without double-booking a clinician.</p></div><button class="primary-button" data-open="appointment">+ New appointment</button></div>
+          <article class="panel"><div class="toolbar"><input id="appointment-date" type="date" aria-label="Filter by date" /><button class="secondary-button" id="refresh-appointments">Refresh</button></div><div class="appointment-list" id="all-appointments"></div></article>
+        </section>
+
+        <section class="staff-view" data-section="patients" hidden>
+          <div class="section-heading"><div><span class="eyebrow">Patient directory</span><h2>Patient records</h2><p>Search contact details and health history.</p></div><button class="primary-button front-only" data-open="patient">+ Add patient</button></div>
+          <article class="panel"><div class="toolbar"><input id="patient-search" type="search" placeholder="Search name, email, or phone…" /><span id="patient-count"></span></div><div class="patient-grid" id="patient-list"></div></article>
+        </section>
+      </div>
+    </section>
+
+    <dialog id="patient-dialog"><form method="dialog" class="dialog-card" id="patient-form"><header><div><span class="eyebrow">New record</span><h2>Add a patient</h2></div><button value="cancel" aria-label="Close">×</button></header><div class="form-grid"><label>First name<input name="first_name" required /></label><label>Last name<input name="last_name" required /></label><label>Email<input name="email" type="email" /></label><label>Phone<input name="phone" required /></label><label>Date of birth<input name="date_of_birth" type="date" /></label><label>Address<input name="address" /></label><label class="wide">Allergies<textarea name="allergies" rows="2"></textarea></label><label class="wide">Medical history<textarea name="medical_history" rows="3"></textarea></label></div><p class="form-error" data-form-error></p><footer><button value="cancel" class="secondary-button">Cancel</button><button type="submit" value="default" class="primary-button">Save patient</button></footer></form></dialog>
+    <dialog id="appointment-dialog"><form method="dialog" class="dialog-card" id="appointment-form"><header><div><span class="eyebrow">Schedule visit</span><h2>New appointment</h2></div><button value="cancel" aria-label="Close">×</button></header><div class="form-grid"><label class="wide">Patient<select name="patient_id" required></select></label><label>Doctor<select name="doctor_id" required></select></label><label>Service<select name="service" required><option>General checkup</option><option>Teeth whitening</option><option>Cosmetic consultation</option><option>Orthodontic consultation</option><option>Children’s dental visit</option><option>Emergency care</option></select></label><label>Starts<input name="starts_at" type="datetime-local" required /></label><label>Ends<input name="ends_at" type="datetime-local" required /></label><label class="wide">Reason<textarea name="reason" rows="3"></textarea></label></div><p class="form-error" data-form-error></p><footer><button value="cancel" class="secondary-button">Cancel</button><button type="submit" value="default" class="primary-button">Book appointment</button></footer></form></dialog>
+    <dialog id="notes-dialog"><form method="dialog" class="dialog-card" id="notes-form"><header><div><span class="eyebrow">AI-assisted</span><h2>Summarise clinical notes</h2></div><button value="cancel" aria-label="Close">×</button></header><input name="appointment_id" type="hidden" /><label>Appointment notes<textarea name="notes" rows="9" minlength="10" placeholder="Enter observations, diagnosis, treatment and follow-up…" required></textarea></label><div class="ai-output" id="ai-output" hidden><strong>Concise summary</strong><p></p><small>Generated locally; review before relying on this summary.</small></div><p class="form-error" data-form-error></p><footer><button value="cancel" class="secondary-button">Close</button><button type="submit" value="default" class="primary-button">✦ Generate summary</button></footer></form></dialog>
+  </main>
+  <script src="../scripts/staff.ts"></script>
+</BaseLayout>
