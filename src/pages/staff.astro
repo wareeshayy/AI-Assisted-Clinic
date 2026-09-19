@@ -4,7 +4,7 @@ import '../styles/staff.css';
 ---
 
 <BaseLayout title="Dentara Staff — Clinic CRM" description="Secure clinic operations dashboard">
-  <main class="staff-app" id="staff-app" data-api={import.meta.env.PUBLIC_API_URL || 'http://localhost:8000/api'}>
+  <main class="staff-app" id="staff-app" data-api={import.meta.env.PUBLIC_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:8000/api')}>
     <section class="login-view" id="login-view">
       <div class="login-art" aria-hidden="true">
         <a href="/" class="staff-brand"><img src="/favicon.svg" alt="" /> Dentara</a>
@@ -19,7 +19,7 @@ import '../styles/staff.css';
           <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
           <p class="form-error" id="login-error" role="alert" hidden></p>
           <button class="primary-button" type="submit">Sign in securely <span>→</span></button>
-          <div class="demo-accounts"><strong>Demo accounts</strong><button type="button" data-demo="frontdesk@dentara.test">Front desk</button><button type="button" data-demo="doctor@dentara.test">Doctor</button><small>Use the password configured by the site owner.</small></div>
+          <div class="demo-accounts"><strong>Try the live demo</strong><button type="button" data-demo="frontdesk@dentara.test" data-role="front_desk">Front desk</button><button type="button" data-demo="doctor@dentara.test" data-role="doctor">Doctor</button><small>Hosted demo buttons sign in instantly. Local installations use the configured password.</small></div>
         </form>
       </div>
     </section>

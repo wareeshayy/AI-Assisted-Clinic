@@ -27,6 +27,14 @@ def test_health_and_role_permissions():
         assert response.status_code == 403
 
 
+def test_hosted_demo_login(monkeypatch):
+    monkeypatch.setenv("ENABLE_DEMO_LOGIN", "true")
+    with TestClient(app) as client:
+        response = client.post("/api/auth/demo/front_desk")
+        assert response.status_code == 200
+        assert response.json()["user"]["role"] == "front_desk"
+
+
 def test_rejects_overlapping_appointments():
     with TestClient(app) as client:
         front = login(client, "frontdesk@dentara.test")

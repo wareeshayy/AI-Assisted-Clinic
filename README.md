@@ -2,6 +2,14 @@
 
 Dentara extends an existing Astro dental-clinic website with a secure, multi-user staff CRM backed by Python and FastAPI. It includes patient records, appointment scheduling with overlap detection, role-based workflows, a daily dashboard, and privacy-conscious clinical-note summarisation.
 
+## Live deployment
+
+- **Clinic website:** [ai-assisted-clinic.vercel.app](https://ai-assisted-clinic.vercel.app/)
+- **Staff CRM:** [ai-assisted-clinic.vercel.app/staff](https://ai-assisted-clinic.vercel.app/staff/)
+- **API health:** [ai-assisted-clinic.vercel.app/api/health](https://ai-assisted-clinic.vercel.app/api/health)
+
+On the hosted staff page, choose **Front desk** or **Doctor** under “Try the live demo” for instant role-based access.
+
 ## Product tour
 
 - **Public clinic site:** responsive marketing pages, services, team, contact and booking demo.

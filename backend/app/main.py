@@ -21,8 +21,9 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, rela
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./dentara.db")
-SECRET_KEY = os.getenv("SECRET_KEY") or secrets.token_urlsafe(48)
+IS_VERCEL = bool(os.getenv("VERCEL"))
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:////tmp/dentara.db" if IS_VERCEL else "sqlite:///./dentara.db")
+SECRET_KEY = os.getenv("SECRET_KEY") or os.getenv("VERCEL_DEPLOYMENT_ID") or secrets.token_urlsafe(48)
 DEMO_PASSWORD = os.getenv("DEMO_PASSWORD")
 TOKEN_MINUTES = int(os.getenv("ACCESS_TOKEN_MINUTES", "480"))
 ALGORITHM = "HS256"
@@ -284,6 +285,18 @@ def login(form: Annotated[OAuth2PasswordRequestForm, Depends()], db: Annotated[S
     return Token(access_token=token, user=UserOut.model_validate(user))
 
 
+@app.post("/api/auth/demo/{role}", response_model=Token)
+def demo_login(role: Role, db: Annotated[Session, Depends(get_db)]):
+    if not (IS_VERCEL or os.getenv("ENABLE_DEMO_LOGIN") == "true"):
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Demo login is not enabled")
+    user = db.scalar(select(User).where(User.role == role.value, User.active.is_(True)).order_by(User.id))
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Demo user not found")
+    expires = datetime.now(timezone.utc) + timedelta(minutes=TOKEN_MINUTES)
+    token = jwt.encode({"sub": str(user.id), "role": user.role, "exp": expires}, SECRET_KEY, algorithm=ALGORITHM)
+    return Token(access_token=token, user=UserOut.model_validate(user))
+
+
 @app.get("/api/auth/me", response_model=UserOut)
 def me(user: Annotated[User, Depends(current_user)]):
     return user
@@ -396,11 +409,10 @@ def dashboard(db: Annotated[Session, Depends(get_db)], user: Annotated[User, Dep
 def seed_database():
     with SessionLocal() as db:
         if db.scalar(select(func.count(User.id))): return
-        if not DEMO_PASSWORD:
-            raise RuntimeError("Set DEMO_PASSWORD before the first startup so demo users can be created securely.")
-        front = User(name="Ayesha Khan", email="frontdesk@dentara.test", password_hash=hash_password(DEMO_PASSWORD), role=Role.front_desk.value)
-        doctor = User(name="Dr. Sarah Johnson", email="doctor@dentara.test", password_hash=hash_password(DEMO_PASSWORD), role=Role.doctor.value, specialty="General Dentistry")
-        doctor2 = User(name="Dr. Michael Chen", email="michael@dentara.test", password_hash=hash_password(DEMO_PASSWORD), role=Role.doctor.value, specialty="Orthodontics")
+        seed_password = DEMO_PASSWORD or secrets.token_urlsafe(48)
+        front = User(name="Ayesha Khan", email="frontdesk@dentara.test", password_hash=hash_password(seed_password), role=Role.front_desk.value)
+        doctor = User(name="Dr. Sarah Johnson", email="doctor@dentara.test", password_hash=hash_password(seed_password), role=Role.doctor.value, specialty="General Dentistry")
+        doctor2 = User(name="Dr. Michael Chen", email="michael@dentara.test", password_hash=hash_password(seed_password), role=Role.doctor.value, specialty="Orthodontics")
         db.add_all([front, doctor, doctor2]); db.flush()
         patients = [
             Patient(first_name="Maya", last_name="Patel", email="maya@example.com", phone="+92 300 555 0101", date_of_birth=date(1992, 5, 14), allergies="Penicillin", medical_history="Mild asthma"),
