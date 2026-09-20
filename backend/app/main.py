@@ -270,6 +270,16 @@ origins = [x.strip() for x in os.getenv("FRONTEND_ORIGINS", "http://localhost:43
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 
+@app.get("/")
+def root():
+    return {
+        "name": "Dentara Clinic CRM API",
+        "status": "online",
+        "health": "/api/health",
+        "documentation": "/docs",
+    }
+
+
 @app.get("/api/health")
 def health():
     return {"status": "healthy", "service": "dentara-api"}
