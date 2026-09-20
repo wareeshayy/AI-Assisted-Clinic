@@ -18,6 +18,12 @@
   "devDependencies": {
     "typescript": "^5.0.0"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  },
   "author": "Wareesha Ashraf",
   "license": "MIT"
 }
