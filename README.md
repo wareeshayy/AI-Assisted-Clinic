@@ -1,23 +1,70 @@
 # Dentara — AI-Assisted Clinic CRM
 
-Dentara extends an existing Astro dental-clinic website with a secure, multi-user staff CRM backed by Python and FastAPI. It includes patient records, appointment scheduling with overlap detection, role-based workflows, a daily dashboard, and privacy-conscious clinical-note summarisation.
+Dentara is a full-stack dental-clinic platform that combines a responsive public website with a secure, multi-user staff CRM. The application provides patient-record management, conflict-safe appointment scheduling, role-based staff workflows, operational dashboards, and privacy-conscious AI-assisted clinical-note summarisation. Its Astro frontend and Python FastAPI backend are deployed together as one integrated application.
 
 ## Live deployment
 
 - **Clinic website:** [ai-assisted-clinic.vercel.app](https://ai-assisted-clinic.vercel.app/)
 - **Staff CRM:** [ai-assisted-clinic.vercel.app/staff](https://ai-assisted-clinic.vercel.app/staff/)
 - **API health:** [ai-assisted-clinic.vercel.app/api/health](https://ai-assisted-clinic.vercel.app/api/health)
+- **Interactive API docs:** [ai-assisted-clinic.vercel.app/docs](https://ai-assisted-clinic.vercel.app/docs)
 
 On the hosted staff page, choose **Front desk** or **Doctor** under “Try the live demo” for instant role-based access.
 
-## Product tour
+## Functionality
 
-- **Public clinic site:** responsive marketing pages, services, team, contact and booking demo.
-- **Staff dashboard:** today’s visits, checked-in patients, completions and patient totals.
-- **Patient CRM:** searchable demographic, contact, allergy and medical-history records.
-- **Conflict-safe scheduling:** the API rejects overlapping appointments for the same doctor with HTTP `409 Conflict` and identifies the conflicting visit.
-- **Two roles:** front desk manages patients and clinic scheduling; doctors see their own schedule and manage clinical notes.
-- **AI-assisted notes:** doctors can turn long notes into a concise extractive summary. It runs locally and does not disclose protected health information to an external model.
+### Public clinic experience
+
+- Responsive clinic website for desktop, tablet and mobile screens.
+- Service, treatment, dentist, clinic-information and contact pages.
+- Public appointment-booking experience with patient, service, date and time inputs.
+- Clear navigation between the public website, booking flow and protected staff workspace.
+
+### Authentication and role-based access
+
+- JWT-based authentication with expiring access tokens.
+- PBKDF2 password hashing with a unique salt for every account.
+- Separate **front-desk** and **doctor** roles with server-enforced permissions.
+- Hosted one-click demo access for either role without exposing passwords in frontend code.
+- Authenticated profile endpoint for restoring and validating staff sessions.
+
+### Staff dashboard
+
+- Daily operational overview showing appointment and patient totals.
+- Counts for scheduled, checked-in and completed visits.
+- Today’s appointment list for quick clinic coordination.
+- Doctor accounts receive a schedule scoped to their own assigned appointments.
+
+### Patient CRM
+
+- Create, view, search and update patient records.
+- Store patient names, phone numbers, email addresses and dates of birth.
+- Maintain allergy, medical-history and clinical-context information.
+- Open an individual patient record together with its appointment history.
+- Front-desk access for registration and record maintenance, with authenticated clinical access for doctors.
+
+### Appointment management
+
+- Create appointments by assigning a patient, doctor, service, start time and duration.
+- View appointments using date and doctor filters.
+- Update appointment status and clinical notes through protected workflows.
+- Track scheduled, checked-in, completed and cancelled appointment states.
+- Reject overlapping appointments for the same doctor with HTTP `409 Conflict`.
+- Return details about the conflicting visit so staff can select another time.
+
+### AI-assisted clinical notes
+
+- Doctors can convert lengthy appointment notes into concise summaries.
+- Summarisation is extractive and runs inside the backend without sending patient information to an external AI provider.
+- Only authorised doctor workflows can access clinical notes and request summaries.
+
+### API and deployment
+
+- REST API with Pydantic validation and SQLAlchemy persistence.
+- Interactive OpenAPI/Swagger documentation at `/docs`.
+- Health endpoint at `/api/health` for deployment monitoring.
+- Astro frontend and FastAPI serverless backend hosted together on Vercel.
+- Automated API tests cover authentication, permissions, scheduling conflicts and note summarisation.
 
 ## Stack
 
@@ -25,7 +72,7 @@ On the hosted staff page, choose **Front desk** or **Doctor** under “Try the l
 - Backend: FastAPI, SQLAlchemy 2, Pydantic, JWT
 - Database: SQLite locally (set `DATABASE_URL` for a managed SQL database in production)
 - Tests: Pytest + FastAPI TestClient
-- Hosting: Cloudflare Pages (frontend) and Render/Railway/Fly.io (API)
+- Hosting: Vercel (Astro static frontend and FastAPI serverless API)
 
 ## Run locally
 
