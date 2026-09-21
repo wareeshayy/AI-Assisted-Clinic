@@ -130,4 +130,4 @@ cd .. && pnpm build
 
 Passwords are PBKDF2-hashed with per-user salts; access tokens expire; every protected route verifies the token and role; doctor schedule access is scoped to that doctor; clinical notes are doctor-only. This is a portfolio demonstration, not a HIPAA/GDPR-certified product. Production use would additionally require managed secrets, TLS, database migrations, encryption at rest, audit logs, backups, retention policy, consent workflows, MFA, rate limiting, and a signed compliance assessment.
 
-See [BUILD_LOG.md](./BUILD_LOG.md) for decisions, limitations, and the AI Usage Report. See [DEMO_SCRIPT.md](./DEMO_SCRIPT.md) for the 3–5 minute recording outline.
+See [BUILD_LOG.md](./BUILD_LOG.md) for decisions, limitations, and the AI Usage Report. See [DEMO_SCRIPT.md](./DEMO_SCRIPT.md) for the 3–5 minute recording outline and [SUBMISSION.md](./SUBMISSION.md) for the deliverables checklist and ready-to-send submission reply.

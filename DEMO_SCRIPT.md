@@ -2,7 +2,7 @@
 
 ## 0:00–0:35 — Context
 
-Open the Dentara public homepage, briefly show the service and booking experience, then open `/staff`. Explain that the project extends the patient-facing clinic site with an operational CRM powered by FastAPI.
+Open the Dentara public homepage, briefly show the services and booking experience, then open `/staff`. Explain that Dentara combines a patient-facing clinic website with an operational CRM powered by FastAPI.
 
 ## 0:35–1:30 — Front-desk workflow
 

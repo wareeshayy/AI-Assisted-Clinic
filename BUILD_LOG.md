@@ -2,13 +2,13 @@
 
 ## Brief
 
-Build a small multi-user healthcare CRM with patient records, scheduling and conflict handling, a staff dashboard, two roles, and one AI-assisted feature. Continue the supplied Dentara Astro clinic site and use Python/FastAPI for the backend.
+Build a complete multi-user healthcare CRM with patient records, scheduling and conflict handling, a staff dashboard, two roles, and one AI-assisted feature. Dentara uses Astro for the public and staff interfaces and Python/FastAPI for its backend.
 
 ## What I built
 
 ### Foundation and product direction
 
-- Audited the existing public site and retained its visual language and patient-facing pages.
+- Established a consistent visual language across the public clinic experience and staff workspace.
 - Added `/staff` as a focused clinic workspace rather than mixing protected operations into public navigation.
 - Chose a single FastAPI service with SQLAlchemy so the demo remains easy to run and straightforward to migrate to PostgreSQL.
 
@@ -40,6 +40,8 @@ Build a small multi-user healthcare CRM with patient records, scheduling and con
 - Production Astro build completes successfully (15 static routes).
 - API smoke test verifies health, login, patient access and dashboard access.
 - Automated tests cover role denial, overlap rejection and doctor summary generation.
+- Deployed the Astro frontend and FastAPI API together on Vercel.
+- Verified the production homepage, staff CRM, API health endpoint and Swagger documentation with HTTP `200` responses.
 
 ## Trade-offs and next iteration
 
