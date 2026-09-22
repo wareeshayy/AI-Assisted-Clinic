@@ -7,7 +7,6 @@
 - **Staff CRM:** https://ai-assisted-clinic.vercel.app/staff/
 - **FastAPI documentation:** https://ai-assisted-clinic.vercel.app/docs
 - **Build Log and AI Usage Report:** [BUILD_LOG.md](./BUILD_LOG.md)
-- **Demo recording guide:** [DEMO_SCRIPT.md](./DEMO_SCRIPT.md)
 - **Demo video:** Add the final public or unlisted 3–5 minute video URL here after recording and uploading it.
 
 ## Requirement coverage
@@ -26,7 +25,7 @@
 | README | Setup, features, API, security and production guidance in [README.md](./README.md) |
 | Build Log | Engineering decisions, trade-offs and verification in [BUILD_LOG.md](./BUILD_LOG.md) |
 | AI Usage Report | Included in the Build Log |
-| Demo video | Four-minute walkthrough script prepared; final recording URL must be added above |
+| Demo video | Add the final public or unlisted recording URL above |
 
 ## Ready-to-send reply
 
