@@ -38,6 +38,7 @@ const currentPath = Astro.url.pathname;
 
     <!-- Right Action Button -->
     <div class="navbar__actions">
+      <a href="/staff/" class="navbar__staff-link">Staff Login</a>
       <a href="/contact" class="btn btn-primary navbar__cta">
         <span class="btn-text">Contact Us</span>
         <span class="btn-icon-circle" aria-hidden="true">
@@ -71,6 +72,9 @@ const currentPath = Astro.url.pathname;
           <a href={href} class="navbar__mobile-link">{label}</a>
         ))}
       </nav>
+      <a href="/staff/" class="btn btn-primary navbar__mobile-cta">
+        <span class="btn-text">Staff Login & Dashboard</span>
+      </a>
       <a href="/contact" class="btn btn-primary navbar__mobile-cta">
         <span class="btn-text">Contact Us</span>
         <span class="btn-icon-circle" aria-hidden="true">
@@ -234,6 +238,24 @@ const currentPath = Astro.url.pathname;
   z-index: 102;
 }
 
+.navbar__staff-link {
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 10px 4px;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.navbar__staff-link:hover,
+.navbar__staff-link:focus-visible {
+  color: var(--color-teal-mid);
+  border-color: currentColor;
+}
+
 /* ---- Hamburger ---- */
 .navbar__hamburger {
   display: none;
@@ -335,6 +357,9 @@ const currentPath = Astro.url.pathname;
   }
 
   .navbar__nav-pill {
+    display: none;
+  }
+  .navbar__staff-link {
     display: none;
   }
   .navbar__hamburger {
